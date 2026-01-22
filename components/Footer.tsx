@@ -10,6 +10,7 @@ import {
   Phone,
   MapPin,
 } from 'lucide-react'
+import { footerFadeIn, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function Footer() {
   const currentYear = new Date().getFullYear()
@@ -83,15 +84,19 @@ export default function Footer() {
         />
       </div>
       
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24">
-        <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-12">
+      <motion.div 
+        {...footerFadeIn}
+        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24"
+      >
+        <motion.div 
+          variants={staggerContainer}
+          initial="initial"
+          whileInView="animate"
+          viewport={{ once: true, amount: 0.1 }}
+          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-12"
+        >
           {/* Company Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5 }}
-          >
+          <motion.div variants={staggerItem}>
             <h3 className="text-xl sm:text-2xl font-bold mb-3 sm:mb-4 bg-gradient-to-r from-[#00A485] to-[#004B78] bg-clip-text text-transparent">
               Aurora Nexus
             </h3>
@@ -106,7 +111,7 @@ export default function Footer() {
                   href={social.href}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: true }}
+                  viewport={{ once: false }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   whileHover={{ 
                     scale: 1.15, 
@@ -124,12 +129,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Quick Links */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-          >
+          <motion.div variants={staggerItem}>
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Quick Links</h4>
             <ul className="space-y-3 sm:space-y-4">
               {quickLinks.map((link, index) => (
@@ -137,7 +137,7 @@ export default function Footer() {
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
+                  viewport={{ once: false, margin: '-50px' }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Link
@@ -157,12 +157,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Services */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.2 }}
-          >
+          <motion.div variants={staggerItem}>
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Services</h4>
             <ul className="space-y-3 sm:space-y-4">
               {services.map((service, index) => (
@@ -170,7 +165,7 @@ export default function Footer() {
                   key={service.slug}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: '-50px' }}
+                  viewport={{ once: false, margin: '-50px' }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Link
@@ -190,12 +185,7 @@ export default function Footer() {
           </motion.div>
 
           {/* Contact Info */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.5, delay: 0.3 }}
-          >
+          <motion.div variants={staggerItem}>
             <h4 className="text-base sm:text-lg font-semibold mb-3 sm:mb-4">Contact Us</h4>
             <ul className="space-y-3 sm:space-y-4">
               <li className="flex items-start gap-3">
@@ -225,14 +215,14 @@ export default function Footer() {
               </li>
             </ul>
           </motion.div>
-        </div>
+        </motion.div>
 
         {/* Copyright */}
         <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5 }}
+          initial={{ opacity: 0, y: 10 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, amount: 0.1 }}
+          transition={{ ...transitions.smooth, delay: 0.5 }}
           className="border-t border-gray-800 pt-8 text-center"
         >
           <p className="text-xs sm:text-sm text-gray-400 px-4">
@@ -240,7 +230,7 @@ export default function Footer() {
             Purpose
           </p>
         </motion.div>
-      </div>
+      </motion.div>
     </footer>
   )
 }

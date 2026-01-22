@@ -251,7 +251,7 @@ export default function BestITSolutions() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-100px' }}
+          viewport={{ once: false, margin: '-100px' }}
           className="text-center mb-16 md:mb-20 max-w-5xl mx-auto"
         >
           {/* Small Label - Fades in first */}
@@ -331,7 +331,7 @@ export default function BestITSolutions() {
           variants={containerVariants}
           initial="hidden"
           whileInView="visible"
-          viewport={{ once: true, margin: '-50px' }}
+          viewport={{ once: false, margin: '-50px' }}
           className="space-y-10 md:space-y-12"
         >
           {/* Top Row: 3 Cards (Center is highlighted) */}

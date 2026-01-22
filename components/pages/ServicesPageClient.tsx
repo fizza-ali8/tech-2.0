@@ -1,18 +1,13 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import { ArrowRight } from 'lucide-react'
 import type { Service } from '@/lib/services'
 import { ServiceIcon } from '@/components/services/ServiceIcon'
 import { getServiceMedia } from '@/lib/media'
-
-const fadeUp = {
-  initial: { opacity: 0, y: 24 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.6 },
-}
+import { sectionFadeIn, imageScaleIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function ServicesPageClient({ services }: { services: Service[] }) {
   return (
@@ -31,15 +26,15 @@ export default function ServicesPageClient({ services }: { services: Service[] }
 
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-14 sm:py-18 md:py-24 text-center">
           <motion.h1
-            {...fadeUp}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight"
           >
             Services That Drive{' '}
             <span className="bg-white/20 px-2 rounded-md">Digital Growth</span>
           </motion.h1>
           <motion.p
-            {...fadeUp}
-            transition={{ duration: 0.6, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-5 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto leading-relaxed"
           >
             End-to-end technology solutions—built with quality, consistency, and
@@ -51,7 +46,7 @@ export default function ServicesPageClient({ services }: { services: Service[] }
       {/* Grid */}
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...fadeUp} className="text-center mb-8 sm:mb-12 md:mb-16">
+          <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
               All Services
             </h2>
@@ -62,25 +57,36 @@ export default function ServicesPageClient({ services }: { services: Service[] }
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto mt-4" />
           </motion.div>
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
             {services.map((s, idx) => (
               <motion.div
                 key={s.slug}
-                initial={{ opacity: 0, y: 24 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
-                transition={{ duration: 0.55, delay: Math.min(idx * 0.06, 0.3) }}
+                variants={staggerItem}
+                transition={{ ...transitions.smooth, delay: getStaggerDelay(idx, 0.08) }}
                 whileHover={{ y: -10, scale: 1.02 }}
                 className="group bg-white border border-gray-100 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 overflow-hidden"
               >
                 {(() => {
                   const media = getServiceMedia(s.slug)
                   return media?.image ? (
-                    <div className="relative h-48 overflow-hidden">
-                      <img
+                    <motion.div 
+                      {...imageScaleIn}
+                      transition={{ ...transitions.smooth, delay: getStaggerDelay(idx, 0.08) + 0.1 }}
+                      className="relative h-48 overflow-hidden"
+                    >
+                      <Image
                         src={media.image}
                         alt={s.title}
-                        className="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                        fill
+                        className="object-cover group-hover:scale-110 transition-transform duration-300"
+                        loading="lazy"
+                        quality={85}
                       />
                       <div className="absolute inset-0 bg-gradient-to-t from-black/20 to-transparent" />
                       <div className="absolute bottom-4 left-4">
@@ -88,7 +94,7 @@ export default function ServicesPageClient({ services }: { services: Service[] }
                           <ServiceIcon slug={s.slug} className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
                         </div>
                       </div>
-                    </div>
+                    </motion.div>
                   ) : null
                 })()}
                 <div className="p-6 sm:p-7">
@@ -128,12 +134,12 @@ export default function ServicesPageClient({ services }: { services: Service[] }
                 <div className="h-1.5 bg-gradient-to-r from-[#004B78] to-[#00A485]" />
               </motion.div>
             ))}
-          </div>
+          </motion.div>
 
           {/* CTA */}
           <motion.div
-            {...fadeUp}
-            transition={{ duration: 0.6, delay: 0.05 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.3 }}
             className="mt-10 sm:mt-14 md:mt-16 text-center"
           >
             <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900 mb-4 px-4">

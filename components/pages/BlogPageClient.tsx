@@ -2,6 +2,7 @@
 
 import { useState } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { ArrowRight, Calendar, Clock, User, Mail } from 'lucide-react'
 import {
@@ -13,13 +14,7 @@ import {
   formatDate,
   type BlogCategory,
 } from '@/lib/blog'
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, imageScaleIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function BlogPageClient() {
   const [selectedCategory, setSelectedCategory] = useState<BlogCategory>('all')
@@ -48,15 +43,15 @@ export default function BlogPageClient() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Insights, Ideas &{' '}
             <span className="bg-white/20 px-2 rounded-md">Innovation</span>
           </motion.h1>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
             Explore expert articles, guides, and insights on software development,
@@ -69,7 +64,7 @@ export default function BlogPageClient() {
       {/* Intro Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center max-w-3xl mx-auto">
+          <motion.div {...sectionFadeIn} className="text-center max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Knowledge That Drives Smarter Decisions
             </h2>
@@ -89,27 +84,33 @@ export default function BlogPageClient() {
       {featuredPost && (
         <section className="py-8 sm:py-12 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <motion.div {...sectionFade} className="mb-6">
+            <motion.div {...sectionFadeIn} className="mb-6">
               <h3 className="text-xl sm:text-2xl font-bold text-gray-900">
                 Featured Article
               </h3>
             </motion.div>
             <Link href={`/blog/${featuredPost.slug}`}>
               <motion.div
-                {...sectionFade}
-                transition={{ delay: 0.1 }}
+                {...cardFadeInUp}
+                transition={{ ...transitions.smooth, delay: 0.1 }}
                 whileHover={{ y: -8, scale: 1.01 }}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
               >
                 <div className="grid md:grid-cols-2 gap-0">
                   {featuredPost.cardImage ? (
-                    <div className="w-full h-64 md:h-full overflow-hidden">
-                      <img
+                    <motion.div 
+                      {...imageScaleIn}
+                      className="w-full h-64 md:h-full overflow-hidden relative"
+                    >
+                      <Image
                         src={featuredPost.cardImage}
                         alt={featuredPost.title}
-                        className="w-full h-full object-cover"
+                        fill
+                        className="object-cover"
+                        loading="lazy"
+                        quality={85}
                       />
-                    </div>
+                    </motion.div>
                   ) : (
                     <div className="w-full h-64 md:h-full bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                       <div className="text-center p-6">
@@ -155,7 +156,7 @@ export default function BlogPageClient() {
       <section className="py-6 sm:py-8 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="flex flex-wrap gap-3 justify-center"
           >
             {blogCategories.map((category) => (
@@ -178,28 +179,39 @@ export default function BlogPageClient() {
       {/* Blog Grid */}
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
             {filteredPosts
               .filter((post) => !post.featured)
               .map((post, index) => (
                 <Link href={`/blog/${post.slug}`} key={post.slug}>
                   <motion.div
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: index * 0.1 }}
+                    variants={staggerItem}
+                    transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.08) }}
                     whileHover={{ y: -8, scale: 1.02 }}
                     className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer h-full flex flex-col"
                   >
                     {/* Post Image */}
                     {post.cardImage ? (
-                      <div className="w-full h-48 overflow-hidden">
-                        <img
+                      <motion.div 
+                        {...imageScaleIn}
+                        transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.08) + 0.1 }}
+                        className="w-full h-48 overflow-hidden relative"
+                      >
+                        <Image
                           src={post.cardImage}
                           alt={post.title}
-                          className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                          fill
+                          className="object-cover group-hover:scale-110 transition-transform duration-300"
+                          loading="lazy"
+                          quality={85}
                         />
-                      </div>
+                      </motion.div>
                     ) : (
                       <div className="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
                         <div className="text-center">
@@ -243,7 +255,7 @@ export default function BlogPageClient() {
                   </motion.div>
                 </Link>
               ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -277,7 +289,7 @@ export default function BlogPageClient() {
                 required
               />
               <motion.button
-                type="submit"
+                {...buttonFadeIn}
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="px-6 py-3 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
@@ -293,20 +305,21 @@ export default function BlogPageClient() {
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Turn Ideas into Action
           </motion.h3>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >
             Ready to apply these insights to your business? Let&apos;s build a
             solution that delivers real impact.
           </motion.p>
           <motion.a
+            {...buttonFadeIn}
             href="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

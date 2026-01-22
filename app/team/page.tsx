@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import {
   ArrowRight,
@@ -16,13 +17,7 @@ import {
 } from 'lucide-react'
 import { leadershipTeam, coreTeam, teamValues } from '@/lib/team'
 import type { TeamValue } from '@/lib/team'
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, buttonFadeIn, cardFadeInUp, imageScaleIn, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 // Icon mapping
 const iconMap: Record<string, LucideIcon> = {
@@ -49,15 +44,15 @@ export default function TeamPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Meet the Minds{' '}
             <span className="bg-white/20 px-2 rounded-md">Behind the Magic</span>
           </motion.h1>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
             Behind every successful project is a passionate team of developers,
@@ -70,7 +65,7 @@ export default function TeamPage() {
       {/* Intro Section */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center max-w-3xl mx-auto">
+          <motion.div {...sectionFadeIn} className="text-center max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               A Team Built on Innovation, Skill & Passion
             </h2>
@@ -93,29 +88,40 @@ export default function TeamPage() {
       {/* Leadership Team */}
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center mb-8 sm:mb-12 md:mb-16">
+          <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Leadership Team
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto" />
           </motion.div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-4xl mx-auto"
+          >
             {leadershipTeam.map((member, index) => (
               <motion.div
                 key={member.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.1 }}
+                variants={staggerItem}
+                transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.1) }}
                 whileHover={{ y: -8, scale: 1.02 }}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 text-center hover:shadow-2xl transition-all duration-300"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300">
+                <motion.div 
+                  {...imageScaleIn}
+                  transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.1) + 0.1 }}
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300 relative"
+                >
                   {member.image ? (
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      loading="lazy"
+                      quality={85}
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center">
@@ -151,39 +157,50 @@ export default function TeamPage() {
                       <Mail className="w-4 h-4 text-gray-600 group-hover:text-white" />
                     </a>
                   )}
-                </div>
+                </motion.div>
               </motion.div>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
       {/* Core Team */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center mb-8 sm:mb-12 md:mb-16">
+          <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Our Experts
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto" />
           </motion.div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
             {coreTeam.slice(0, 3).map((member, index) => (
               <motion.div
                 key={member.name}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.5, delay: index * 0.08 }}
+                variants={staggerItem}
+                transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.08) }}
                 whileHover={{ y: -8, scale: 1.02 }}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 text-center hover:shadow-2xl transition-all duration-300"
               >
-                <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300">
+                <motion.div 
+                  {...imageScaleIn}
+                  transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.08) + 0.1 }}
+                  className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300 relative"
+                >
                   {member.image ? (
-                    <img
+                    <Image
                       src={member.image}
                       alt={member.name}
-                      className="w-full h-full object-cover"
+                      fill
+                      className="object-cover"
+                      loading="lazy"
+                      quality={85}
                     />
                   ) : (
                     <div className="w-full h-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center">
@@ -228,19 +245,24 @@ export default function TeamPage() {
                 {coreTeam.slice(3).map((member, index) => (
                   <motion.div
                     key={member.name}
-                    initial={{ opacity: 0, y: 30 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true }}
-                    transition={{ duration: 0.5, delay: (index + 3) * 0.08 }}
+                    variants={staggerItem}
+                    transition={{ ...transitions.smooth, delay: getStaggerDelay(index + 3, 0.08) }}
                     whileHover={{ y: -8, scale: 1.02 }}
                     className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 text-center hover:shadow-2xl transition-all duration-300 w-full md:w-[calc(50%-1rem)] lg:w-auto lg:max-w-sm"
                   >
-                    <div className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300">
+                    <motion.div 
+                      {...imageScaleIn}
+                      transition={{ ...transitions.smooth, delay: getStaggerDelay(index + 3, 0.08) + 0.1 }}
+                      className="w-20 h-20 sm:w-24 sm:h-24 rounded-full overflow-hidden bg-gradient-to-br from-gray-200 to-gray-300 flex items-center justify-center mx-auto mb-5 border-2 border-gray-300 relative"
+                    >
                       {member.image ? (
-                        <img
+                        <Image
                           src={member.image}
                           alt={member.name}
-                          className="w-full h-full object-cover"
+                          fill
+                          className="object-cover"
+                          loading="lazy"
+                          quality={85}
                         />
                       ) : (
                         <div className="w-full h-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center">
@@ -288,22 +310,26 @@ export default function TeamPage() {
       {/* Team Values */}
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center mb-8 sm:mb-12 md:mb-16">
+          <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12 md:mb-16">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               What Drives Our Team
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto" />
           </motion.div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8"
+          >
             {teamValues.map((value, index) => {
               const IconComponent = iconMap[value.icon] || Lightbulb
               return (
                 <motion.div
                   key={value.title}
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  variants={staggerItem}
+                  transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.1) }}
                   whileHover={{ y: -8, scale: 1.02 }}
                   className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8 text-center hover:shadow-2xl transition-all duration-300"
                 >
@@ -319,7 +345,7 @@ export default function TeamPage() {
                 </motion.div>
               )
             })}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -327,15 +353,15 @@ export default function TeamPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl mx-auto">
-            <motion.div {...sectionFade} className="text-center mb-8 sm:mb-12">
+            <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12">
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
                 A Culture of Growth & Excellence
               </h2>
               <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto mb-6" />
             </motion.div>
             <motion.div
-              {...sectionFade}
-              transition={{ delay: 0.1 }}
+              {...sectionFadeIn}
+              transition={{ ...transitions.smooth, delay: 0.1 }}
               className="space-y-4"
             >
               <p className="text-base sm:text-lg text-gray-700 leading-relaxed">
@@ -357,15 +383,15 @@ export default function TeamPage() {
       {/* Behind the Scenes */}
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <motion.div {...sectionFade} className="text-center mb-8 sm:mb-12">
+          <motion.div {...sectionFadeIn} className="text-center mb-8 sm:mb-12">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Life at Aurora Nexus
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto mb-6" />
           </motion.div>
           <motion.div
-            {...sectionFade}
-            transition={{ delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="max-w-4xl mx-auto"
           >
             <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-6">
@@ -395,7 +421,7 @@ export default function TeamPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...cardFadeInUp}
             className="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12 text-center"
           >
             <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">
@@ -406,6 +432,7 @@ export default function TeamPage() {
               specialists, and digital strategists to join our growing team.
             </p>
             <motion.a
+              {...buttonFadeIn}
               href="/contact"
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
@@ -422,20 +449,21 @@ export default function TeamPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Ready to Build Something Amazing With Us?
           </motion.h3>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >
             Let&apos;s turn your ideas into powerful digital solutions with a team
             you can trust.
           </motion.p>
           <motion.a
+            {...buttonFadeIn}
             href="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

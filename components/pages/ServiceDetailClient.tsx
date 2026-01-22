@@ -6,13 +6,7 @@ import { ArrowRight, ChevronLeft, CheckCircle } from 'lucide-react'
 import type { Service } from '@/lib/services'
 import FAQAccordion from '@/components/services/FAQAccordion'
 import { getServiceMedia } from '@/lib/media'
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, buttonFadeIn, cardFadeInUp, transitions } from '@/lib/animations'
 
 export default function ServiceDetailClient({ service }: { service: Service }) {
   const media = getServiceMedia(service.slug)
@@ -193,7 +187,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
         <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              {...sectionFade}
+              {...sectionFadeIn}
               className="text-center mb-8 sm:mb-12 md:mb-16"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">

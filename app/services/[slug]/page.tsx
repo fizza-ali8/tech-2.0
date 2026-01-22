@@ -1,7 +1,13 @@
 import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ServiceDetailClient from '@/components/pages/ServiceDetailClient'
-import { servicesBySlug } from '@/lib/services'
+import { services, servicesBySlug } from '@/lib/services'
+
+export async function generateStaticParams() {
+  return services.map((service) => ({
+    slug: service.slug,
+  }))
+}
 
 export function generateMetadata({
   params,

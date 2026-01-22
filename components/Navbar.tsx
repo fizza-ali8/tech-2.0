@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
 import { Menu, X } from 'lucide-react'
 import { usePathname } from 'next/navigation'
+import { navbarSlideDown, transitions, getStaggerDelay } from '@/lib/animations'
 
 export default function Navbar() {
   const [isScrolled, setIsScrolled] = useState(false)
@@ -30,9 +31,7 @@ export default function Navbar() {
 
   return (
     <motion.nav
-      initial={{ y: -100 }}
-      animate={{ y: 0 }}
-      transition={{ duration: 0.5 }}
+      {...navbarSlideDown}
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         isScrolled
           ? 'bg-white/95 backdrop-blur-md shadow-lg'
@@ -42,6 +41,9 @@ export default function Navbar() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 md:h-20">
           <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             whileHover={{ scale: 1.05 }}
             className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent"
           >
@@ -50,13 +52,16 @@ export default function Navbar() {
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-4 lg:space-x-8">
-            {navLinks.map((link) => {
+            {navLinks.map((link, index) => {
               const isActive = pathname === link.href || 
                 (link.href === '/services' && pathname?.startsWith('/services'))
               return (
                 <motion.a
                   key={link.name}
                   href={link.href}
+                  initial={{ opacity: 0, y: -10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ ...transitions.smooth, delay: 0.15 + getStaggerDelay(index, 0.05) }}
                   whileHover={{ 
                     y: -3,
                     scale: 1.05
@@ -82,12 +87,15 @@ export default function Navbar() {
           </div>
 
           {/* Mobile Menu Button */}
-          <button
+          <motion.button
+            initial={{ opacity: 0, scale: 0.8 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ ...transitions.smooth, delay: 0.2 }}
             className="md:hidden text-gray-700"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          </motion.button>
         </div>
       </div>
 

@@ -125,8 +125,16 @@ export default function HeroSection() {
           loop
           muted
           playsInline
+          preload="metadata"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectFit: 'cover' }}
+          onLoadedData={(e) => {
+            // Start playing once metadata is loaded
+            const video = e.currentTarget
+            video.play().catch(() => {
+              // Ignore autoplay errors
+            })
+          }}
         >
           <source src="/media/home_hero.mp4" type="video/mp4" />
         </video>
@@ -440,7 +448,7 @@ export default function HeroSection() {
           
           {/* Secondary CTA - Action oriented */}
           <motion.a
-            href="#contact"
+            href="/contact"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}

@@ -6,13 +6,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, ExternalLink } from 'lucide-react'
 import type { CaseStudy, CaseStudyCategory } from '@/lib/case-studies'
 import { categories, getFilteredCaseStudies } from '@/lib/case-studies'
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function CaseStudiesPageClient({
   caseStudies,
@@ -47,15 +41,15 @@ export default function CaseStudiesPageClient({
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Our Work. Real{' '}
             <span className="bg-white/20 px-2 rounded-md">Results.</span>
           </motion.h1>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
             Explore how we&apos;ve helped businesses transform ideas into powerful
@@ -68,7 +62,7 @@ export default function CaseStudiesPageClient({
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center max-w-3xl mx-auto"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -93,7 +87,7 @@ export default function CaseStudiesPageClient({
       <section className="py-6 sm:py-8 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="flex flex-wrap gap-3 justify-center"
           >
             {categories.map((category) => (
@@ -116,14 +110,18 @@ export default function CaseStudiesPageClient({
       {/* Portfolio Grid */}
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8">
+          <motion.div 
+            variants={staggerContainer}
+            initial="initial"
+            whileInView="animate"
+            viewport={{ once: true, amount: 0.1 }}
+            className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-2 gap-8"
+          >
             {filteredStudies.map((project, index) => (
               <Link href={`/case-studies/${project.slug}`} key={project.slug}>
                 <motion.div
-                  initial={{ opacity: 0, y: 30 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: index * 0.1 }}
+                  variants={staggerItem}
+                  transition={{ ...transitions.smooth, delay: getStaggerDelay(index, 0.1) }}
                   whileHover={{ y: -8, scale: 1.02 }}
                   className="bg-white rounded-2xl shadow-lg border border-gray-100 overflow-hidden hover:shadow-2xl transition-all duration-300 cursor-pointer"
                 >
@@ -162,7 +160,7 @@ export default function CaseStudiesPageClient({
                 </motion.div>
               </Link>
             ))}
-          </div>
+          </motion.div>
         </div>
       </section>
 
@@ -170,20 +168,21 @@ export default function CaseStudiesPageClient({
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Ready to Build Your Success Story?
           </motion.h3>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >
             Let&apos;s discuss your idea and create a solution that drives real
             impact for your business.
           </motion.p>
           <motion.a
+            {...buttonFadeIn}
             href="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}

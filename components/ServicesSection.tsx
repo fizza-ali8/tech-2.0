@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
 import {
@@ -15,6 +16,7 @@ import {
   Settings,
 } from 'lucide-react'
 import { getServiceMedia } from '@/lib/media'
+import { sectionFadeIn, imageScaleIn, buttonFadeIn, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function ServicesSection() {
   const [isPaused, setIsPaused] = useState(false)
@@ -169,17 +171,73 @@ export default function ServicesSection() {
   return (
     <section
       id="services"
-      className="section-spacing bg-gradient-to-b from-gray-50 to-white overflow-hidden"
+      className="section-spacing relative overflow-hidden"
+      style={{
+        background: 'radial-gradient(circle at top, #f0f9ff 0%, #e6f6ff 30%, #ffffff 60%)',
+      }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Glow Blobs - Premium Effect */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          className="absolute w-[400px] h-[400px] rounded-full"
+          style={{
+            background: '#38bdf8',
+            opacity: 0.12,
+            filter: 'blur(120px)',
+            top: '20%',
+            left: '-100px',
+          }}
+          animate={{
+            scale: [1, 1.2, 1],
+            opacity: [0.12, 0.18, 0.12],
+          }}
+          transition={{
+            duration: 8,
+            repeat: Infinity,
+            ease: 'easeInOut',
+          }}
+        />
+        <motion.div
+          className="absolute w-[400px] h-[400px] rounded-full"
+          style={{
+            background: '#2dd4bf',
+            opacity: 0.12,
+            filter: 'blur(120px)',
+            top: '50%',
+            right: '-100px',
+          }}
+          animate={{
+            scale: [1, 1.15, 1],
+            opacity: [0.12, 0.16, 0.12],
+          }}
+          transition={{
+            duration: 10,
+            repeat: Infinity,
+            ease: 'easeInOut',
+            delay: 1,
+          }}
+        />
+      </div>
+
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <motion.div
+          {...sectionFadeIn}
           className="text-center mb-16 md:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 md:mb-8 px-4">
+          {/* Small Label */}
+          <motion.div
+            initial={{ opacity: 0, y: 10 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
+            className="mb-4"
+          >
+            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#00A485] bg-[#00A485]/10 rounded-full">
+              Our Services
+            </span>
+          </motion.div>
+
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 md:mb-8 px-4">
             Services That Drive{' '}
             <span className="bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent">
               Digital Growth
@@ -214,34 +272,52 @@ export default function ServicesSection() {
                 <motion.div
                   key={`${service.title}-${index}`}
                   className="flex-shrink-0 w-[calc(100vw-2rem)] md:w-[calc((100%-4.5rem)/4)]"
-                  initial={{ opacity: 0, y: 20 }}
-                  whileInView={{ opacity: 1, y: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.5, delay: (index % services.length) * 0.1 }}
+                  initial={{ opacity: 0, x: -30, y: 20 }}
+                  whileInView={{ opacity: 1, x: 0, y: 0 }}
+                  viewport={{ once: false, amount: 0.2 }}
+                  transition={{ 
+                    ...transitions.smooth, 
+                    delay: getStaggerDelay(index % services.length, 0.1) 
+                  }}
                 >
                   <Link href={`/services/${service.slug}`} className="block h-full">
                     <motion.div 
-                      className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-gray-100 group h-full flex flex-col overflow-hidden cursor-pointer"
+                      className="group h-full flex flex-col overflow-hidden cursor-pointer rounded-2xl"
+                      style={{
+                        background: 'rgba(255, 255, 255, 0.8)',
+                        backdropFilter: 'blur(6px)',
+                        border: '1px solid rgba(0, 0, 0, 0.05)',
+                        boxShadow: '0 10px 30px rgba(0, 0, 0, 0.08)',
+                      }}
                       whileHover={{ 
-                        y: -12, 
+                        y: -8, 
                         scale: 1.02,
-                        boxShadow: '0 25px 50px rgba(0, 0, 0, 0.15)'
+                        boxShadow: '0 25px 60px rgba(0, 0, 0, 0.15)',
                       }}
                       transition={{ duration: 0.3, ease: 'easeOut' }}
                     >
                     {/* Image Section */}
                     <div
-                      className={`relative h-48 bg-gradient-to-br ${service.gradient} overflow-hidden`}
+                      className={`relative h-48 bg-gradient-to-br ${service.gradient} overflow-hidden rounded-t-2xl`}
                     >
                       {(() => {
                         const media = getServiceMedia(service.slug)
                         return media?.image ? (
                           <>
-                            <img
-                              src={media.image}
-                              alt={service.title}
-                              className="absolute inset-0 w-full h-full object-cover"
-                            />
+                            <motion.div
+                              className="absolute inset-0"
+                              whileHover={{ scale: 1.08 }}
+                              transition={{ duration: 0.5, ease: 'easeOut' }}
+                            >
+                              <Image
+                                src={media.image}
+                                alt={service.title}
+                                fill
+                                className="object-cover"
+                                loading="lazy"
+                                quality={85}
+                              />
+                            </motion.div>
                             <div className="absolute inset-0 bg-black/20" />
                           </>
                         ) : (
@@ -254,18 +330,20 @@ export default function ServicesSection() {
                         )
                       })()}
                       <div className="absolute top-4 right-4">
-                        <div
-                          className={`w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center group-hover:scale-110 transition-transform`}
+                        <motion.div
+                          className="w-12 h-12 sm:w-14 sm:h-14 rounded-lg bg-white/20 backdrop-blur-sm flex items-center justify-center"
+                          whileHover={{ scale: 1.1, rotate: 5 }}
+                          transition={{ duration: 0.2 }}
                         >
                           <service.icon className="w-6 h-6 sm:w-7 sm:h-7 text-white" />
-                        </div>
+                        </motion.div>
                       </div>
                     </div>
 
                     {/* Content Section */}
                     <div className="p-6 sm:p-8 flex-grow flex flex-col">
                       <motion.h3 
-                        className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 group-hover:text-primary-600 transition-colors duration-300"
+                        className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-3 sm:mb-4 group-hover:text-[#00A485] transition-colors duration-300"
                         whileHover={{ x: 4 }}
                         transition={{ duration: 0.2 }}
                       >
@@ -298,10 +376,7 @@ export default function ServicesSection() {
         </div>
 
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-50px' }}
-          transition={{ duration: 0.8, ease: 'easeOut' }}
+          {...buttonFadeIn}
           className="text-center mt-12 md:mt-16"
         >
           <motion.a

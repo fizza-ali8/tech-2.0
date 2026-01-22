@@ -4,13 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react'
 import { services } from '@/lib/services'
 import { useState } from 'react'
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function ContactPage() {
   const [formData, setFormData] = useState({
@@ -67,15 +61,15 @@ export default function ContactPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Let&apos;s Build Something{' '}
             <span className="bg-white/20 px-2 rounded-md">Great Together</span>
           </motion.h1>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
             Have an idea, project, or challenge in mind? Our team is ready to help
@@ -88,7 +82,7 @@ export default function ContactPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center max-w-3xl mx-auto"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -111,7 +105,7 @@ export default function ContactPage() {
             {/* Contact Form */}
             <div className="lg:col-span-2">
               <motion.div
-                {...sectionFade}
+                {...cardFadeInUp}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8"
               >
                 <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
@@ -239,6 +233,7 @@ export default function ContactPage() {
                   </div>
 
                   <motion.button
+                    {...buttonFadeIn}
                     type="submit"
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
@@ -255,8 +250,8 @@ export default function ContactPage() {
             {/* Contact Information */}
             <div className="lg:col-span-1 space-y-8">
               <motion.div
-                {...sectionFade}
-                transition={{ duration: 0.7, delay: 0.1 }}
+                {...cardFadeInUp}
+                transition={{ ...transitions.smooth, delay: 0.1 }}
                 className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8"
               >
                 <h4 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
@@ -332,8 +327,8 @@ export default function ContactPage() {
 
               {/* Why Contact Us */}
               <motion.div
-                {...sectionFade}
-                transition={{ duration: 0.7, delay: 0.2 }}
+                {...cardFadeInUp}
+                transition={{ ...transitions.smooth, delay: 0.2 }}
                 className="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8"
               >
                 <h4 className="text-xl sm:text-2xl font-bold text-gray-900 mb-6">
@@ -364,7 +359,7 @@ export default function ContactPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center mb-8 sm:mb-12"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
@@ -377,8 +372,8 @@ export default function ContactPage() {
           <div className="grid md:grid-cols-2 gap-6 md:gap-8">
             {/* Rawalpindi Location */}
             <motion.div
-              {...sectionFade}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              {...cardFadeInUp}
+              transition={{ ...transitions.smooth, delay: 0.1 }}
               className="rounded-2xl overflow-hidden shadow-lg border border-gray-100"
             >
               <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-4">
@@ -402,8 +397,8 @@ export default function ContactPage() {
 
             {/* Islamabad Location */}
             <motion.div
-              {...sectionFade}
-              transition={{ duration: 0.7, delay: 0.2 }}
+              {...cardFadeInUp}
+              transition={{ ...transitions.smooth, delay: 0.2 }}
               className="rounded-2xl overflow-hidden shadow-lg border border-gray-100"
             >
               <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-4">
@@ -432,20 +427,21 @@ export default function ContactPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Ready to Get Started?
           </motion.h3>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >
             Let&apos;s discuss your idea and explore how our technology solutions
             can help you grow.
           </motion.p>
           <motion.a
+            {...buttonFadeIn}
             href="#"
             onClick={(e) => {
               e.preventDefault()

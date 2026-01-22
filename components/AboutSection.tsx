@@ -1,9 +1,10 @@
 'use client'
 
-import { motion } from 'framer-motion'
+import { motion, useReducedMotion } from 'framer-motion'
 import { Target, Zap, Heart, Shield } from 'lucide-react'
 
 export default function AboutSection() {
+  const shouldReduceMotion = useReducedMotion()
   const features = [
     {
       icon: Target,
@@ -34,9 +35,9 @@ export default function AboutSection() {
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <motion.div
-          initial={{ opacity: 0, y: 40 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: '-100px' }}
+          initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
+          whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
+          viewport={{ once: false, margin: '-100px' }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
           className="text-center mb-16 md:mb-20"
         >
@@ -51,9 +52,9 @@ export default function AboutSection() {
 
         <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center mb-16 md:mb-20">
           <motion.div
-            initial={{ opacity: 0, x: -50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
+            whileInView={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
             <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 md:mb-8 leading-tight">
@@ -86,9 +87,9 @@ export default function AboutSection() {
           </motion.div>
 
           <motion.div
-            initial={{ opacity: 0, x: 50 }}
-            whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, margin: '-50px' }}
+            initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: 50 }}
+            whileInView={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
+            viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
             className="relative"
           >
@@ -96,15 +97,15 @@ export default function AboutSection() {
               {features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, y: 30, scale: 0.9 }}
-                  whileInView={{ opacity: 1, y: 0, scale: 1 }}
-                  viewport={{ once: true, margin: '-50px' }}
+                  initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.9 }}
+                  whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
+                  viewport={{ once: false, margin: '-50px' }}
                   transition={{ 
                     duration: 0.6, 
                     delay: index * 0.15,
                     ease: 'easeOut'
                   }}
-                  whileHover={{ 
+                  whileHover={shouldReduceMotion ? {} : { 
                     scale: 1.05, 
                     y: -8,
                     boxShadow: '0 20px 40px rgba(0, 164, 133, 0.2)'

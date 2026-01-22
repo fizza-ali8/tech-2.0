@@ -13,14 +13,7 @@ import {
   ChevronRight,
 } from 'lucide-react'
 import { services } from '@/lib/services'
-
-
-const sectionFade = {
-  initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.2 },
-  transition: { duration: 0.7 },
-}
+import { sectionFadeIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function AboutPage() {
 
@@ -48,7 +41,7 @@ export default function AboutPage() {
         </div>
         <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Transforming Ideas Into{' '}
@@ -57,8 +50,8 @@ export default function AboutPage() {
             </span>
           </motion.h1>
           <motion.p
-            {...sectionFade}
-            transition={{ duration: 0.7, delay: 0.1 }}
+            {...sectionFadeIn}
+            transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
             At Aurora Nexus, we help businesses leverage technology to solve
@@ -84,8 +77,8 @@ export default function AboutPage() {
 
           <div className="grid sm:grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
             <motion.div
-              {...sectionFade}
-              transition={{ duration: 0.7, delay: 0.05 }}
+              {...cardFadeInUp}
+              transition={{ ...transitions.smooth, delay: 0.05 }}
               className="p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100 bg-gradient-to-br from-gray-50 to-white"
             >
               <div className="flex items-center gap-3 mb-4">
@@ -102,8 +95,8 @@ export default function AboutPage() {
             </motion.div>
 
             <motion.div
-              {...sectionFade}
-              transition={{ duration: 0.7, delay: 0.1 }}
+              {...cardFadeInUp}
+              transition={{ ...transitions.smooth, delay: 0.1 }}
               className="p-6 sm:p-8 rounded-2xl shadow-lg border border-gray-100 bg-gradient-to-br from-gray-50 to-white"
             >
               <div className="flex items-center gap-3 mb-4">
@@ -221,6 +214,7 @@ export default function AboutPage() {
             Let&apos;s build something impactful together — efficient, secure, and ready to scale.
           </motion.p>
           <motion.a
+            {...buttonFadeIn}
             href="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
