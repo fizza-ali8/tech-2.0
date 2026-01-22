@@ -406,7 +406,7 @@ export default function HeroSection() {
         >
           {/* Primary CTA - Action oriented */}
           <motion.a
-            href="#services"
+            href="/services"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
@@ -435,7 +435,7 @@ export default function HeroSection() {
             />
             
             <span className="relative z-10 flex items-center gap-3">
-              See Our Work
+              Our Services
               <motion.div
                 className="relative z-10"
                 whileHover={{ x: 6 }}
