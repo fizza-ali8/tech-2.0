@@ -360,24 +360,26 @@ export default function HeroSection() {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
-          className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-extrabold text-white mb-6 md:mb-8 leading-[1.1] px-2"
+          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 leading-[1.1] px-2"
           style={{
             textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           }}
         >
           Transform Ideas into{' '}
           <motion.span
-            className="bg-gradient-to-r from-[#00A485] via-[#0BD9C1] to-[#00A485] bg-clip-text text-transparent bg-[length:200%_auto] inline-block"
+            className="bg-gradient-to-br from-[#004B78] via-[#00A485] to-[#004B78] bg-clip-text text-transparent bg-[length:200%_200%] inline-block"
             animate={{
-              backgroundPosition: ['0%', '200%', '0%'],
+              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
             }}
             transition={{
-              duration: 5,
+              duration: 4,
               repeat: Infinity,
               ease: 'linear',
             }}
             style={{
               textShadow: '0 0 30px rgba(0, 164, 133, 0.4)',
+              WebkitBackgroundClip: 'text',
+              WebkitTextFillColor: 'transparent',
             }}
           >
             Powerful Digital Products

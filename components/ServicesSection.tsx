@@ -237,7 +237,7 @@ export default function ServicesSection() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 md:mb-8 px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 md:mb-8 px-4">
             Services That Drive{' '}
             <span className="bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent">
               Digital Growth
@@ -274,7 +274,7 @@ export default function ServicesSection() {
                   className="flex-shrink-0 w-[calc(100vw-2rem)] md:w-[calc((100%-4.5rem)/4)]"
                   initial={{ opacity: 0, x: -30, y: 20 }}
                   whileInView={{ opacity: 1, x: 0, y: 0 }}
-                  viewport={{ once: false, amount: 0.2 }}
+                  viewport={{ once: true, amount: 0.2 }}
                   transition={{ 
                     ...transitions.smooth, 
                     delay: getStaggerDelay(index % services.length, 0.1) 

@@ -45,6 +45,7 @@ export const transitions = {
 }
 
 // Viewport settings for scroll-triggered animations
+// Using once: true for SSR safety to prevent hydration mismatches
 export const viewportSettings = {
   once: true,
   amount: 0.2,

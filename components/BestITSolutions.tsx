@@ -8,13 +8,14 @@ import {
   Rocket,
   Zap,
   ArrowRight,
+  Clock,
 } from 'lucide-react'
 import Image from 'next/image'
 
 export default function BestITSolutions() {
   const shouldReduceMotion = useReducedMotion()
 
-  // 5 features: 3 top row, 2 bottom row (center highlighted)
+  // 6 features: 3 top row, 3 bottom row (center highlighted)
   const features = [
     {
       icon: TrendingUp,
@@ -44,6 +45,12 @@ export default function BestITSolutions() {
       icon: Zap,
       title: 'High Performance',
       description: 'Optimized systems delivering speed, stability, and peak efficiency at scale.',
+      isHighlighted: false,
+    },
+    {
+      icon: Clock,
+      title: '24/7 Support & Monitoring',
+      description: 'Round-the-clock technical support and proactive system monitoring to ensure zero downtime and fast issue resolution.',
       isHighlighted: false,
     },
   ]
@@ -269,7 +276,7 @@ export default function BestITSolutions() {
           {/* Main Headline - Fades in second */}
           <motion.h2
             variants={itemVariants}
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold mb-6 leading-[1.1] tracking-tight"
+            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 leading-[1.1] tracking-tight"
           >
             Best IT Solutions That{' '}
             <span className="bg-gradient-to-r from-white via-cyan-100 to-white bg-clip-text text-transparent">
@@ -326,7 +333,7 @@ export default function BestITSolutions() {
           </motion.div>
         </motion.div>
 
-        {/* Feature Cards: 3 Top, 2 Bottom (Center Highlighted) */}
+        {/* Feature Cards: 3 Top, 3 Bottom */}
         <motion.div
           variants={containerVariants}
           initial="hidden"
@@ -334,7 +341,7 @@ export default function BestITSolutions() {
           viewport={{ once: false, margin: '-50px' }}
           className="space-y-10 md:space-y-12"
         >
-          {/* Top Row: 3 Cards (Center is highlighted) */}
+          {/* Top Row: 3 Cards */}
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
             {features.slice(0, 3).map((feature, index) => (
               <FeatureCard
@@ -348,20 +355,18 @@ export default function BestITSolutions() {
             ))}
           </div>
 
-          {/* Bottom Row: 2 Cards Centered */}
-          <div className="flex justify-center">
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-7 lg:gap-8 w-full max-w-5xl">
-              {features.slice(3).map((feature, index) => (
-                <FeatureCard
-                  key={feature.title}
-                  feature={feature}
-                  index={index + 3}
-                  variants={itemVariants}
-                  cardHoverVariants={cardHoverVariants}
-                  shouldReduceMotion={shouldReduceMotion}
-                />
-              ))}
-            </div>
+          {/* Bottom Row: 3 Cards - All 6 cards displayed */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-7 lg:gap-8">
+            {features.slice(3, 6).map((feature, index) => (
+              <FeatureCard
+                key={feature.title}
+                feature={feature}
+                index={index + 3}
+                variants={itemVariants}
+                cardHoverVariants={cardHoverVariants}
+                shouldReduceMotion={shouldReduceMotion}
+              />
+            ))}
           </div>
         </motion.div>
       </div>

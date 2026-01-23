@@ -111,7 +111,7 @@ export default function Footer() {
                   href={social.href}
                   initial={{ opacity: 0, scale: 0 }}
                   whileInView={{ opacity: 1, scale: 1 }}
-                  viewport={{ once: false }}
+                  viewport={{ once: true }}
                   transition={{ duration: 0.3, delay: index * 0.1 }}
                   whileHover={{ 
                     scale: 1.15, 
@@ -137,7 +137,7 @@ export default function Footer() {
                   key={link.name}
                   initial={{ opacity: 0, x: -20 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: false, margin: '-50px' }}
+                  viewport={{ once: true, margin: '-50px' }}
                   transition={{ duration: 0.5, delay: index * 0.1 }}
                 >
                   <Link

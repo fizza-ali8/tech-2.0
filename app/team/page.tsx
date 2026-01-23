@@ -13,8 +13,8 @@ import {
   UserPlus,
   GraduationCap,
   Eye,
-  LucideIcon,
 } from 'lucide-react'
+import type { LucideIcon } from 'lucide-react'
 import { leadershipTeam, coreTeam, teamValues } from '@/lib/team'
 import type { TeamValue } from '@/lib/team'
 import { sectionFadeIn, buttonFadeIn, cardFadeInUp, imageScaleIn, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'

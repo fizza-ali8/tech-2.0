@@ -1,10 +1,15 @@
 'use client'
 
+import { useState, useEffect } from 'react'
+import Image from 'next/image'
 import { motion } from 'framer-motion'
-import { Quote, Star } from 'lucide-react'
-import { sectionFadeIn, transitions, getStaggerDelay } from '@/lib/animations'
+import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react'
+import { sectionFadeIn, transitions } from '@/lib/animations'
 
 export default function Testimonials() {
+  const [currentIndex, setCurrentIndex] = useState(0)
+  const [isAutoPlaying, setIsAutoPlaying] = useState(true)
+  const [isMounted, setIsMounted] = useState(false)
   const testimonials = [
     {
       quote:
@@ -34,6 +39,36 @@ export default function Testimonials() {
       initials: 'MC',
     },
   ]
+
+  // Ensure component is mounted on client
+  useEffect(() => {
+    setIsMounted(true)
+  }, [])
+
+  // Auto-play slider
+  useEffect(() => {
+    if (!isMounted || !isAutoPlaying) return
+    
+    const interval = setInterval(() => {
+      setCurrentIndex((prev) => (prev + 1) % testimonials.length)
+    }, 5000) // Change card every 5 seconds
+
+    return () => clearInterval(interval)
+  }, [isMounted, isAutoPlaying, testimonials.length])
+
+  const goToNext = () => {
+    setCurrentIndex((prev) => (prev + 1) % testimonials.length)
+    setIsAutoPlaying(false)
+  }
+
+  const goToPrevious = () => {
+    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length)
+    setIsAutoPlaying(false)
+  }
+
+  // Always use index 0 for initial render to ensure SSR/client consistency
+  const displayIndex = isMounted ? currentIndex : 0
+  const testimonial = testimonials[displayIndex] || testimonials[0]
 
   return (
     <section 
@@ -95,7 +130,7 @@ export default function Testimonials() {
           <motion.div
             initial={{ opacity: 0, y: 10 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: false, amount: 0.2 }}
+            viewport={{ once: true, amount: 0.2 }}
             transition={{ ...transitions.smooth, delay: 0.1 }}
             className="mb-4"
           >
@@ -104,7 +139,7 @@ export default function Testimonials() {
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold text-gray-900 mb-6 md:mb-8 px-4">
+          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 md:mb-8 px-4">
             What Our <span className="bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent">Clients Say</span>
           </h2>
           <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-8 md:mb-10 px-4 leading-relaxed">
@@ -114,106 +149,152 @@ export default function Testimonials() {
           <div className="w-32 h-1.5 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto rounded-full" />
         </motion.div>
 
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 items-start">
-          {testimonials.map((testimonial, index) => {
-            const isMiddle = index === 1 // Middle card (index 1)
-            return (
-              <motion.div
-                key={index}
-                initial={{ opacity: 0, x: -100 }}
-                whileInView={{ opacity: 1, x: 0 }}
-                viewport={{ once: false, amount: 0.2 }}
-                transition={{ 
-                  ...transitions.smooth, 
-                  delay: getStaggerDelay(index, 0.2),
-                  ease: [0.22, 1, 0.36, 1]
-                }}
-                whileHover={{ 
-                  y: -8, 
-                  scale: isMiddle ? 1.03 : 1.02,
-                  boxShadow: '0 25px 60px rgba(0, 164, 133, 0.15)'
-                }}
-                className={`relative group ${
-                  isMiddle ? 'md:scale-105 md:-mt-4 md:mb-4 z-20' : ''
-                }`}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.75)',
-                  backdropFilter: 'blur(8px)',
-                  border: '1px solid rgba(0, 0, 0, 0.05)',
-                  borderRadius: '18px',
-                  boxShadow: isMiddle 
-                    ? '0 20px 50px rgba(0, 0, 0, 0.12)' 
-                    : '0 15px 40px rgba(0, 0, 0, 0.08)',
-                  padding: '2rem 2.5rem',
-                }}
-              >
-                {/* Quote Icon - Bigger & Accent Color */}
-                <motion.div
-                  className="mb-6"
-                  whileHover={{ scale: 1.1, rotate: 5 }}
-                  transition={{ duration: 0.3 }}
+        {/* Two Column Layout: Image Left, Slider Right */}
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+          {/* Left Side: Image */}
+          <motion.div
+            initial={{ opacity: 0, x: -50 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true, amount: 0.2 }}
+            transition={{ ...transitions.smooth, duration: 0.8 }}
+            className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1"
+            style={{
+              boxShadow: '0 20px 60px rgba(0, 164, 133, 0.15)',
+            }}
+          >
+            <Image
+              src="/media/clients_home.jpg"
+              alt="Happy Clients"
+              fill
+              className="object-cover"
+              priority
+              quality={90}
+            />
+            {/* Subtle overlay for better text contrast if needed */}
+            <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
+          </motion.div>
+
+          {/* Right Side: Slider */}
+          <div className="relative order-1 md:order-2">
+            <div 
+              className="relative overflow-hidden min-h-[400px]"
+              onMouseEnter={() => setIsAutoPlaying(false)}
+              onMouseLeave={() => setIsAutoPlaying(true)}
+            >
+              <div className="relative" style={{ minHeight: '400px' }}>
+                {/* Testimonial Card - Static content, same on server and client */}
+                <div
+                  className="relative group"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.75)',
+                    backdropFilter: 'blur(8px)',
+                    border: '1px solid rgba(0, 0, 0, 0.05)',
+                    borderRadius: '18px',
+                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
+                    padding: '2rem 2.5rem',
+                  }}
                 >
-                  <Quote 
-                    className="w-16 h-16 sm:w-20 sm:h-20" 
-                    style={{ color: '#00A485', opacity: 0.25 }} 
-                  />
-                </motion.div>
+                  {/* Quote Icon - Bigger & Accent Color */}
+                  <div className="mb-6">
+                    <Quote 
+                      className="w-16 h-16 sm:w-20 sm:h-20" 
+                      style={{ color: '#00A485', opacity: 0.25 }} 
+                    />
+                  </div>
 
-                {/* Stars - Larger */}
-                <div className="flex gap-1.5 mb-6">
-                  {[...Array(testimonial.rating)].map((_, i) => (
-                    <motion.div
-                      key={i}
-                      initial={{ scale: 0, opacity: 0 }}
-                      whileInView={{ scale: 1, opacity: 1 }}
-                      viewport={{ once: false }}
-                      transition={{ 
-                        delay: getStaggerDelay(index, 0.2) + i * 0.08, 
-                        duration: 0.3 
+                  {/* Stars - Larger */}
+                  <div className="flex gap-1.5 mb-6">
+                    {[...Array(testimonial.rating)].map((_, i) => (
+                      <Star key={i} className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 fill-yellow-400" />
+                    ))}
+                  </div>
+
+                  {/* Quote Text */}
+                  <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8 italic font-medium">
+                    "{testimonial.quote}"
+                  </p>
+
+                  {/* Author Section - Enhanced */}
+                  <div className="border-t border-gray-200 pt-6 flex items-center gap-4">
+                    {/* Avatar Circle */}
+                    <div 
+                      className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center flex-shrink-0"
+                      style={{
+                        boxShadow: '0 4px 12px rgba(0, 164, 133, 0.3)',
                       }}
-                      whileHover={{ scale: 1.2, rotate: 15 }}
                     >
-                      <Star className="w-6 h-6 sm:w-7 sm:h-7 text-yellow-400 fill-yellow-400" />
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Quote Text */}
-                <p className="text-base sm:text-lg text-gray-700 leading-relaxed mb-8 italic font-medium">
-                  "{testimonial.quote}"
-                </p>
-
-                {/* Author Section - Enhanced */}
-                <div className="border-t border-gray-200 pt-6 flex items-center gap-4">
-                  {/* Avatar Circle */}
-                  <div 
-                    className="w-12 h-12 sm:w-14 sm:h-14 rounded-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center flex-shrink-0"
-                    style={{
-                      boxShadow: '0 4px 12px rgba(0, 164, 133, 0.3)',
-                    }}
-                  >
-                    <span className="text-white font-bold text-sm sm:text-base">
-                      {testimonial.initials}
-                    </span>
-                  </div>
-                  
-                  <div className="flex-1">
-                    {/* Accent Line */}
-                    <div className="w-12 h-0.5 bg-gradient-to-r from-[#004B78] to-[#00A485] mb-2" />
-                    <p className="text-base sm:text-lg font-bold text-gray-900 mb-1">
-                      {testimonial.author}
-                    </p>
-                    <p className="text-sm sm:text-base text-gray-600">
-                      {testimonial.role}, {testimonial.company}
-                    </p>
+                      <span className="text-white font-bold text-sm sm:text-base">
+                        {testimonial.initials}
+                      </span>
+                    </div>
+                    
+                    <div className="flex-1">
+                      {/* Accent Line */}
+                      <div className="w-12 h-0.5 bg-gradient-to-r from-[#004B78] to-[#00A485] mb-2" />
+                      <p className="text-base sm:text-lg font-bold text-gray-900 mb-1">
+                        {testimonial.author}
+                      </p>
+                      <p className="text-sm sm:text-base text-gray-600">
+                        {testimonial.role}, {testimonial.company}
+                      </p>
+                    </div>
                   </div>
                 </div>
-              </motion.div>
-            )
-          })}
+              </div>
+
+              {/* Navigation Buttons - Always render, but disable until mounted */}
+              <div className="flex items-center justify-center gap-4 mt-8">
+                <motion.button
+                  onClick={isMounted ? goToPrevious : undefined}
+                  disabled={!isMounted}
+                  whileHover={isMounted ? { scale: 1.1 } : {}}
+                  whileTap={isMounted ? { scale: 0.95 } : {}}
+                  className="w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Previous testimonial"
+                >
+                  <ChevronLeft className="w-6 h-6 text-gray-700" />
+                </motion.button>
+
+                {/* Dots Indicator */}
+                <div className="flex gap-2">
+                  {testimonials.map((_, index) => {
+                    // Always show first dot as active on SSR - use 0 for initial render
+                    const activeIndex = isMounted ? currentIndex : 0
+                    const isActive = index === activeIndex
+                    return (
+                      <button
+                        key={index}
+                        onClick={isMounted ? () => {
+                          setCurrentIndex(index)
+                          setIsAutoPlaying(false)
+                        } : undefined}
+                        disabled={!isMounted}
+                        className={`rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+                          isActive
+                            ? 'bg-[#00A485] w-8 h-2'
+                            : 'bg-gray-300 hover:bg-gray-400 w-2 h-2'
+                        }`}
+                        aria-label={`Go to testimonial ${index + 1}`}
+                      />
+                    )
+                  })}
+                </div>
+
+                <motion.button
+                  onClick={isMounted ? goToNext : undefined}
+                  disabled={!isMounted}
+                  whileHover={isMounted ? { scale: 1.1 } : {}}
+                  whileTap={isMounted ? { scale: 0.95 } : {}}
+                  className="w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  aria-label="Next testimonial"
+                >
+                  <ChevronRight className="w-6 h-6 text-gray-700" />
+                </motion.button>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </section>
   )
 }
-
