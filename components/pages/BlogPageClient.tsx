@@ -263,7 +263,7 @@ export default function BlogPageClient() {
       <section className="py-12 sm:py-16 md:py-20 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="bg-gradient-to-br from-gray-50 to-white rounded-2xl shadow-lg border border-gray-100 p-8 sm:p-12 text-center"
           >
             <div className="w-16 h-16 rounded-full bg-gradient-to-br from-[#004B78] to-[#00A485] flex items-center justify-center mx-auto mb-6">

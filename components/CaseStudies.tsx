@@ -1,11 +1,14 @@
 'use client'
 
-import { motion, useReducedMotion } from 'framer-motion'
+import { motion, useReducedMotion, useInView } from 'framer-motion'
+import { useRef } from 'react'
 import { ExternalLink, TrendingUp, TrendingDown } from 'lucide-react'
 import { sectionFadeIn, transitions, getStaggerDelay } from '@/lib/animations'
 
 export default function CaseStudies() {
   const shouldReduceMotion = useReducedMotion()
+  const sectionRef = useRef(null)
+  const isInView = useInView(sectionRef, { once: false, amount: 0.3 })
   
   const caseStudies = [
     {
@@ -48,6 +51,7 @@ export default function CaseStudies() {
 
   return (
     <section
+      ref={sectionRef}
       id="case-studies"
       className="section-spacing relative overflow-hidden py-20 md:py-28"
       style={{
@@ -98,10 +102,27 @@ export default function CaseStudies() {
           />
         </motion.div>
 
-        {/* Cards Grid - Mobile: Stack, Desktop: Grid */}
-        <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-10">
+        {/* Cards Container - Relative for absolute positioning */}
+        <div className="relative min-h-[500px] flex items-center justify-center">
           {caseStudies.map((study, index) => {
             const isPrimary = study.isPrimary
+            
+            // Calculate slide positions based on viewport state
+            // All cards start at center (x: 0) - positioned absolutely
+            // When in view: middle card stays, side cards slide out
+            // When out of view: all cards return to center
+            let slideX = 0
+            if (isInView) {
+              if (index === 0) {
+                // Left card slides left
+                slideX = shouldReduceMotion ? -180 : -280
+              } else if (index === 2) {
+                // Right card slides right
+                slideX = shouldReduceMotion ? 180 : 280
+              }
+              // Middle card (index 1) stays at 0
+            }
+            // When out of view, all cards are at x: 0 (default)
             
             const cardVariants = {
               rest: {
@@ -128,21 +149,26 @@ export default function CaseStudies() {
             return (
               <motion.div
                 key={study.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, amount: 0.2 }}
+                initial={{ opacity: 0, y: 30, x: 0 }}
+                animate={{ 
+                  opacity: isInView ? 1 : 0.3,
+                  y: isInView ? 0 : 30,
+                  x: slideX,
+                }}
                 transition={{ 
                   ...transitions.smooth, 
-                  delay: getStaggerDelay(index, 0.12),
+                  delay: isPrimary ? 0 : (index === 0 ? 0.4 : 0.6),
                   ease: [0.22, 1, 0.36, 1],
-                  duration: 0.6
+                  duration: 0.8,
                 }}
                 variants={cardVariants}
-                initial="rest"
                 whileHover={shouldReduceMotion ? 'rest' : 'hover'}
-                className={`group relative ${
-                  isPrimary ? 'md:scale-[1.05] md:z-20' : ''
+                className={`group absolute left-1/2 w-full max-w-[380px] md:w-[380px] ${
+                  isPrimary ? 'md:scale-[1.05] z-30' : 'z-10'
                 }`}
+                style={{
+                  transform: 'translateX(-50%)',
+                }}
                 style={{
                   background: 'rgba(255, 255, 255, 0.98)',
                   backdropFilter: 'blur(12px)',

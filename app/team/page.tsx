@@ -31,7 +31,7 @@ const iconMap: Record<string, LucideIcon> = {
 
 export default function TeamPage() {
   return (
-    <main>
+    <main className="min-h-screen">
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="absolute inset-0 opacity-20">
@@ -130,7 +130,7 @@ export default function TeamPage() {
                       </span>
                     </div>
                   )}
-                </div>
+                </motion.div>
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                   {member.name}
                 </h3>
@@ -157,7 +157,7 @@ export default function TeamPage() {
                       <Mail className="w-4 h-4 text-gray-600 group-hover:text-white" />
                     </a>
                   )}
-                </motion.div>
+                </div>
               </motion.div>
             ))}
           </motion.div>
@@ -209,7 +209,7 @@ export default function TeamPage() {
                       </span>
                     </div>
                   )}
-                </div>
+                </motion.div>
                 <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                   {member.name}
                 </h3>
@@ -271,7 +271,7 @@ export default function TeamPage() {
                           </span>
                         </div>
                       )}
-                    </div>
+                    </motion.div>
                     <h3 className="text-lg sm:text-xl font-bold text-gray-900 mb-2">
                       {member.name}
                     </h3>
@@ -303,7 +303,7 @@ export default function TeamPage() {
                 ))}
               </div>
             )}
-          </div>
+          </motion.div>
         </div>
       </section>
 

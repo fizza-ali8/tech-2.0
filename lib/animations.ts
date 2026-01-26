@@ -76,63 +76,86 @@ export const staggerItem: Variants = {
 // Text animation variants
 export const textFadeInUp: Variants = {
   initial: { opacity: 0, y: 15 },
-  whileInView: { opacity: 1, y: 0 },
+  whileInView: { 
+    opacity: 1, 
+    y: 0,
+    transition: transitions.smooth,
+  },
   viewport: viewportSettings,
-  transition: transitions.smooth,
 }
 
 // Image animation variants
 export const imageScaleIn: Variants = {
   initial: { opacity: 0, scale: 0.9 },
-  whileInView: { opacity: 1, scale: 1 },
+  whileInView: { 
+    opacity: 1, 
+    scale: 1,
+    transition: { ...transitions.smooth, duration: 0.7 },
+  },
   viewport: viewportSettings,
-  transition: { ...transitions.smooth, duration: 0.7 },
 }
 
 export const imageFadeIn: Variants = {
   initial: { opacity: 0 },
-  whileInView: { opacity: 1 },
+  whileInView: { 
+    opacity: 1,
+    transition: transitions.smooth,
+  },
   viewport: viewportSettings,
-  transition: transitions.smooth,
 }
 
 // Button animation variants
 export const buttonFadeIn: Variants = {
   initial: { opacity: 0, y: 10 },
-  whileInView: { opacity: 1, y: 0 },
+  whileInView: { 
+    opacity: 1, 
+    y: 0,
+    transition: { ...transitions.smooth, delay: 0.2 },
+  },
   viewport: viewportSettings,
-  transition: { ...transitions.smooth, delay: 0.2 },
 }
 
 // Card animation variants
 export const cardFadeInUp: Variants = {
   initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
+  whileInView: { 
+    opacity: 1, 
+    y: 0,
+    transition: transitions.smooth,
+  },
   viewport: viewportSettings,
-  transition: transitions.smooth,
 }
 
 // Section animation variants
 export const sectionFadeIn: Variants = {
   initial: { opacity: 0, y: 30 },
-  whileInView: { opacity: 1, y: 0 },
+  whileInView: { 
+    opacity: 1, 
+    y: 0,
+    transition: transitions.smooth,
+  },
   viewport: viewportSettings,
-  transition: transitions.smooth,
 }
 
 // Navbar animation
 export const navbarSlideDown: Variants = {
   initial: { opacity: 0, y: -100 },
-  animate: { opacity: 1, y: 0 },
-  transition: transitions.smooth,
+  animate: { 
+    opacity: 1, 
+    y: 0,
+    transition: transitions.smooth,
+  },
 }
 
 // Footer animation
 export const footerFadeIn: Variants = {
   initial: { opacity: 0, y: 20 },
-  whileInView: { opacity: 1, y: 0 },
-  viewport: { once: true, amount: 0.1 },
-  transition: { ...transitions.smooth, delay: 0.3 },
+  whileInView: { 
+    opacity: 1, 
+    y: 0,
+    transition: { ...transitions.smooth, delay: 0.3 },
+  },
+  viewport: viewportSettings,
 }
 
 // Helper function to create staggered delays

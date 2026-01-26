@@ -57,13 +57,13 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
           </Link>
 
           <motion.h1
-            {...sectionFade}
+            {...sectionFadeIn}
             className="mt-8 text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             {service.hero?.headline || service.title}
           </motion.h1>
           <motion.p
-            {...sectionFade}
+            {...sectionFadeIn}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="mt-6 text-base sm:text-lg md:text-xl text-white/90 max-w-3xl mx-auto text-center leading-relaxed"
           >
@@ -77,7 +77,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
         <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              {...sectionFade}
+              {...sectionFadeIn}
               className="text-center mb-8 sm:mb-12 md:mb-16"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -89,7 +89,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
               {service.keyFeatures.features.map((feature, index) => (
                 <motion.div
                   key={feature.title}
-                  {...sectionFade}
+                  {...sectionFadeIn}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
                   whileHover={{ y: -8, scale: 1.02 }}
                   className="p-6 sm:p-7 rounded-2xl shadow-lg bg-white border border-gray-100 hover:shadow-2xl transition-all duration-300"
@@ -115,7 +115,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
         <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              {...sectionFade}
+              {...sectionFadeIn}
               className="text-center mb-8 sm:mb-12 md:mb-16"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -127,7 +127,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
               {service.mainDescription.split('\n\n').map((para, i) => (
                 <motion.p
                   key={i}
-                  {...sectionFade}
+                  {...sectionFadeIn}
                   transition={{ duration: 0.7, delay: i * 0.1 }}
                   className="text-base sm:text-lg text-gray-700 leading-relaxed mb-4"
                 >
@@ -144,7 +144,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
         <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <motion.div
-              {...sectionFade}
+              {...sectionFadeIn}
               className="text-center mb-8 sm:mb-12 md:mb-16"
             >
               <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -156,7 +156,7 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
               {service.approach.steps.map((step, index) => (
                 <motion.div
                   key={step.title}
-                  {...sectionFade}
+                  {...sectionFadeIn}
                   transition={{ duration: 0.5, delay: index * 0.08 }}
                   className="flex gap-4 items-start p-6 sm:p-7 rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white shadow-lg"
                 >
@@ -206,13 +206,13 @@ export default function ServiceDetailClient({ service }: { service: Service }) {
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Start Your Project Today
           </motion.h3>
           <motion.p
-            {...sectionFade}
+            {...sectionFadeIn}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >

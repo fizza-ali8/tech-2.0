@@ -66,7 +66,7 @@ export default function AboutPage() {
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -118,7 +118,7 @@ export default function AboutPage() {
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-gradient-to-b from-gray-50 to-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -165,7 +165,7 @@ export default function AboutPage() {
       <section className="py-12 sm:py-16 md:py-20 lg:py-24 bg-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <motion.div
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-center mb-8 sm:mb-12 md:mb-16"
           >
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900">
@@ -178,7 +178,7 @@ export default function AboutPage() {
             {reasons.map((r, i) => (
               <motion.div
                 key={r.title}
-                {...sectionFade}
+                {...sectionFadeIn}
                 transition={{ duration: 0.5, delay: i * 0.08 }}
                 className="p-6 sm:p-7 rounded-2xl border border-gray-100 bg-gradient-to-br from-gray-50 to-white shadow-lg"
               >
@@ -201,13 +201,13 @@ export default function AboutPage() {
       <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-br from-[#004B78] to-[#00A485] text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.h3
-            {...sectionFade}
+            {...sectionFadeIn}
             className="text-2xl sm:text-3xl md:text-4xl font-bold mb-4"
           >
             Start Your Project Today
           </motion.h3>
           <motion.p
-            {...sectionFade}
+            {...sectionFadeIn}
             transition={{ duration: 0.7, delay: 0.1 }}
             className="text-base sm:text-lg text-white/90 mb-6 max-w-2xl mx-auto"
           >

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { motion } from 'framer-motion'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Quote, Star, ChevronLeft, ChevronRight } from 'lucide-react'
 import { sectionFadeIn, transitions } from '@/lib/animations'
 
@@ -45,13 +45,13 @@ export default function Testimonials() {
     setIsMounted(true)
   }, [])
 
-  // Auto-play slider
+  // Auto-play slider - 4 seconds
   useEffect(() => {
     if (!isMounted || !isAutoPlaying) return
     
     const interval = setInterval(() => {
       setCurrentIndex((prev) => (prev + 1) % testimonials.length)
-    }, 5000) // Change card every 5 seconds
+    }, 4000) // Change card every 4 seconds
 
     return () => clearInterval(interval)
   }, [isMounted, isAutoPlaying, testimonials.length])
@@ -155,7 +155,7 @@ export default function Testimonials() {
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
-            viewport={{ once: true, amount: 0.2 }}
+            viewport={{ once: false, amount: 0.2 }}
             transition={{ ...transitions.smooth, duration: 0.8 }}
             className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1"
             style={{
@@ -182,18 +182,27 @@ export default function Testimonials() {
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
               <div className="relative" style={{ minHeight: '400px' }}>
-                {/* Testimonial Card - Static content, same on server and client */}
-                <div
-                  className="relative group"
-                  style={{
-                    background: 'rgba(255, 255, 255, 0.75)',
-                    backdropFilter: 'blur(8px)',
-                    border: '1px solid rgba(0, 0, 0, 0.05)',
-                    borderRadius: '18px',
-                    boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
-                    padding: '2rem 2.5rem',
-                  }}
-                >
+                {/* Testimonial Card with Sliding Animation */}
+                <AnimatePresence mode="wait">
+                  <motion.div
+                    key={currentIndex}
+                    initial={{ opacity: 0, x: 100 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -100 }}
+                    transition={{ 
+                      duration: 0.5, 
+                      ease: [0.22, 1, 0.36, 1],
+                    }}
+                    className="relative group"
+                    style={{
+                      background: 'rgba(255, 255, 255, 0.75)',
+                      backdropFilter: 'blur(8px)',
+                      border: '1px solid rgba(0, 0, 0, 0.05)',
+                      borderRadius: '18px',
+                      boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
+                      padding: '2rem 2.5rem',
+                    }}
+                  >
                   {/* Quote Icon - Bigger & Accent Color */}
                   <div className="mb-6">
                     <Quote 
@@ -239,7 +248,8 @@ export default function Testimonials() {
                       </p>
                     </div>
                   </div>
-                </div>
+                  </motion.div>
+                </AnimatePresence>
               </div>
 
               {/* Navigation Buttons - Always render, but disable until mounted */}

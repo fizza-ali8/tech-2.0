@@ -24,8 +24,13 @@ const nextConfig = {
   
   // Experimental features for better performance
   experimental: {
-    optimizeCss: true,
     optimizePackageImports: ['lucide-react', 'framer-motion'],
+  },
+  
+  // Increase timeout for chunk loading
+  onDemandEntries: {
+    maxInactiveAge: 60 * 1000,
+    pagesBufferLength: 5,
   },
   
   // Headers for caching and performance
@@ -45,7 +50,9 @@ const nextConfig = {
         headers: [
           {
             key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
+            value: process.env.NODE_ENV === 'production' 
+              ? 'public, max-age=31536000, immutable'
+              : 'public, max-age=0, must-revalidate',
           },
         ],
       },
