@@ -36,18 +36,47 @@ export const slideUp: Variants = {
   exit: { opacity: 0, y: 30 },
 }
 
-// Transition presets
+// Transition presets - Optimized for 60fps smoothness
 export const transitions = {
-  smooth: { duration: 0.6, ease: [0.22, 1, 0.36, 1] }, // Custom easing for smooth feel
-  gentle: { duration: 0.5, ease: [0.25, 0.46, 0.45, 0.94] },
-  quick: { duration: 0.4, ease: [0.22, 1, 0.36, 1] },
-  slow: { duration: 0.8, ease: [0.22, 1, 0.36, 1] },
+  smooth: { 
+    duration: 0.6, 
+    ease: [0.22, 1, 0.36, 1], // Custom easing for smooth feel
+    type: 'tween' as const, // Use tween for better performance
+  },
+  gentle: { 
+    duration: 0.5, 
+    ease: [0.25, 0.46, 0.45, 0.94],
+    type: 'tween' as const,
+  },
+  quick: { 
+    duration: 0.4, 
+    ease: [0.22, 1, 0.36, 1],
+    type: 'tween' as const,
+  },
+  slow: { 
+    duration: 0.8, 
+    ease: [0.22, 1, 0.36, 1],
+    type: 'tween' as const,
+  },
+  // Ultra-smooth for critical animations
+  ultraSmooth: {
+    duration: 0.7,
+    ease: [0.16, 1, 0.3, 1], // Ease-out-expo for buttery smooth feel
+    type: 'tween' as const,
+  },
 }
 
 // Viewport settings for scroll-triggered animations
-// Using once: true for SSR safety to prevent hydration mismatches
+// Optimized for smooth performance
 export const viewportSettings = {
   once: true,
+  amount: 0.2,
+  margin: '-50px',
+}
+
+// Viewport settings for repeatable animations (smooth on re-entry)
+export const viewportSettingsRepeat = {
+  once: false,
   amount: 0.2,
   margin: '-50px',
 }
@@ -63,13 +92,16 @@ export const staggerContainer: Variants = {
   },
 }
 
-// Stagger item variants
+// Stagger item variants - GPU optimized
 export const staggerItem: Variants = {
   initial: { opacity: 0, y: 20 },
   animate: {
     opacity: 1,
     y: 0,
-    transition: transitions.smooth,
+    transition: {
+      ...transitions.smooth,
+      // Use transform for GPU acceleration
+    },
   },
 }
 
@@ -126,13 +158,16 @@ export const cardFadeInUp: Variants = {
   viewport: viewportSettings,
 }
 
-// Section animation variants
+// Section animation variants - Optimized for smoothness
 export const sectionFadeIn: Variants = {
   initial: { opacity: 0, y: 30 },
   whileInView: { 
     opacity: 1, 
     y: 0,
-    transition: transitions.smooth,
+    transition: {
+      ...transitions.ultraSmooth,
+      // Ensure GPU acceleration
+    },
   },
   viewport: viewportSettings,
 }

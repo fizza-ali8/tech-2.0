@@ -100,17 +100,22 @@ export default function AboutSection() {
                   initial={shouldReduceMotion ? { opacity: 1, y: 0, scale: 1 } : { opacity: 0, y: 30, scale: 0.9 }}
                   whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0, scale: 1 }}
                   viewport={{ once: false, margin: '-50px' }}
-                  transition={{ 
-                    duration: 0.6, 
+                  transition={{
+                    type: 'tween',
+                    duration: 0.6,
                     delay: index * 0.15,
-                    ease: 'easeOut'
+                    ease: [0.22, 1, 0.36, 1],
                   }}
                   whileHover={shouldReduceMotion ? {} : { 
                     scale: 1.05, 
                     y: -8,
                     boxShadow: '0 20px 40px rgba(0, 164, 133, 0.2)'
                   }}
-                  className="bg-gradient-to-br from-primary-50 to-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-primary-100/50 group"
+                  className="bg-gradient-to-br from-primary-50 to-white p-6 sm:p-8 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 border border-primary-100/50 group smooth-transform"
+                  style={{
+                    willChange: 'transform, box-shadow',
+                    transform: 'translateZ(0)',
+                  }}
                 >
                   <motion.div
                     whileHover={{ rotate: [0, -10, 10, 0] }}

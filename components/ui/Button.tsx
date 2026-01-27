@@ -66,7 +66,15 @@ export default function Button({
   const motionProps = {
     whileHover: { scale: 1.05, y: -2 },
     whileTap: { scale: 0.95 },
-    transition: { duration: 0.2, ease: 'easeOut' },
+    transition: { 
+      duration: 0.2, 
+      ease: [0.22, 1, 0.36, 1], // Smooth easing
+      type: 'tween' as const, // Use tween for better performance
+    },
+    style: {
+      willChange: 'transform', // GPU hint
+      transform: 'translateZ(0)', // Force GPU acceleration
+    },
   }
   
   if (href) {

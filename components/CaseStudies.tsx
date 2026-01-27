@@ -15,10 +15,11 @@ export default function CaseStudies() {
       title: 'E-Commerce Platform Transformation',
       client: 'TechRetail Inc.',
       challenge:
-        'Legacy system causing slow performance and poor user experience.',
+        'Outdated legacy system causing slow performance and a poor overall user experience.',
       solution:
-        'Built a modern, scalable e-commerce platform with AI-powered recommendations.',
-      results: '300% increase in sales, 50% reduction in load time.',
+        'Developed a modern, scalable e-commerce platform with AI-powered product recommendations.',
+      results:
+        'Significant performance improvements and higher conversions, with faster load times.',
       metric: '+300%',
       metricLabel: 'Sales Growth',
       isPrimary: false,
@@ -27,10 +28,11 @@ export default function CaseStudies() {
       title: 'AI-Powered Customer Support',
       client: 'ServicePro Solutions',
       challenge:
-        'High customer support costs and slow response times.',
+        'High customer support costs and delayed response times affecting customer satisfaction.',
       solution:
-        'Implemented custom RAG chatbot system for instant customer assistance.',
-      results: '70% reduction in support tickets, 24/7 availability.',
+        'Implemented a custom RAG-based chatbot system for instant, automated customer assistance.',
+      results:
+        'Major reduction in support workload and improved 24/7 customer availability.',
       metric: '70%',
       metricLabel: 'Cost Reduction',
       isPrimary: true, // Middle card - primary highlight
@@ -39,10 +41,11 @@ export default function CaseStudies() {
       title: 'Cloud Migration & DevOps',
       client: 'FinanceFlow Corp',
       challenge:
-        'On-premise infrastructure limiting scalability and increasing costs.',
+        'On-premise infrastructure limiting scalability and increasing operational expenses.',
       solution:
-        'Migrated to cloud with automated CI/CD pipeline and monitoring.',
-      results: '60% cost savings, 5x faster deployments.',
+        'Migrated systems to the cloud with automated CI/CD pipelines and monitoring tools.',
+      results:
+        'Lower operational costs and faster, more reliable application deployments.',
       metric: '60%',
       metricLabel: 'Cost Savings',
       isPrimary: false,
@@ -107,22 +110,32 @@ export default function CaseStudies() {
           {caseStudies.map((study, index) => {
             const isPrimary = study.isPrimary
             
-            // Calculate slide positions based on viewport state
-            // All cards start at center (x: 0) - positioned absolutely
-            // When in view: middle card stays, side cards slide out
-            // When out of view: all cards return to center
+            // All 3 same size, start in middle. Side cards hidden behind center, then slide out to a clear distance.
+            // Card width 380px; 420px offset = cards fully outside with ~40px gap from middle.
+            const slideDistance = shouldReduceMotion ? 340 : 420
             let slideX = 0
+            let zIndexValue = isPrimary ? 30 : 10
+            let sideOpacity = 1
+
             if (isInView) {
               if (index === 0) {
-                // Left card slides left
-                slideX = shouldReduceMotion ? -180 : -280
+                slideX = -slideDistance
+                zIndexValue = 10
+                sideOpacity = 1
               } else if (index === 2) {
-                // Right card slides right
-                slideX = shouldReduceMotion ? 180 : 280
+                slideX = slideDistance
+                zIndexValue = 10
+                sideOpacity = 1
+              } else {
+                slideX = 0
+                zIndexValue = 30
               }
-              // Middle card (index 1) stays at 0
+            } else {
+              // Side cards behind center: at center, hidden (opacity 0)
+              slideX = 0
+              zIndexValue = isPrimary ? 30 : 5
+              if (!isPrimary) sideOpacity = 0
             }
-            // When out of view, all cards are at x: 0 (default)
             
             const cardVariants = {
               rest: {
@@ -146,37 +159,54 @@ export default function CaseStudies() {
               },
             }
             
+            // Opacity: middle always 1; side cards 0 when behind, 1 when slid out
+            const animateOpacity = isPrimary ? 1 : sideOpacity
+            // All 3 cards same size (scale 1)
+            const animateScale = 1
+
             return (
-              <motion.div
+              <div
                 key={study.title}
-                initial={{ opacity: 0, y: 30, x: 0 }}
-                animate={{ 
-                  opacity: isInView ? 1 : 0.3,
-                  y: isInView ? 0 : 30,
-                  x: slideX,
-                }}
-                transition={{ 
-                  ...transitions.smooth, 
-                  delay: isPrimary ? 0 : (index === 0 ? 0.4 : 0.6),
-                  ease: [0.22, 1, 0.36, 1],
-                  duration: 0.8,
-                }}
-                variants={cardVariants}
-                whileHover={shouldReduceMotion ? 'rest' : 'hover'}
-                className={`group absolute left-1/2 w-full max-w-[380px] md:w-[380px] ${
-                  isPrimary ? 'md:scale-[1.05] z-30' : 'z-10'
-                }`}
-                style={{
-                  transform: 'translateX(-50%)',
-                }}
-                style={{
-                  background: 'rgba(255, 255, 255, 0.98)',
+                className="absolute left-1/2 top-1/2 w-full max-w-[380px] md:w-[380px] -translate-x-1/2 -translate-y-1/2 flex justify-center"
+                style={{ zIndex: zIndexValue }}
+              >
+                <motion.div
+                  initial={false}
+                  animate={{ 
+                    opacity: animateOpacity,
+                    y: 0,
+                    x: slideX,
+                    scale: animateScale,
+                  }}
+                  transition={{ 
+                    ...transitions.ultraSmooth, 
+                    delay: isInView ? (isPrimary ? 0 : (index === 0 ? 0.25 : 0.45)) : 0,
+                    ease: [0.22, 1, 0.36, 1],
+                    duration: isInView ? 0.85 : 0.6,
+                    type: 'tween',
+                  }}
+                  variants={cardVariants}
+                  whileHover={shouldReduceMotion ? 'rest' : 'hover'}
+                  className="group w-full smooth-transform"
+                  style={{
+                    background: 'rgba(255, 255, 255, 0.98)',
                   backdropFilter: 'blur(12px)',
                   borderRadius: '24px',
                   padding: '2.25rem 2.75rem',
                   border: isPrimary 
                     ? '1.5px solid rgba(0, 164, 133, 0.25)' 
                     : '1px solid rgba(0, 0, 0, 0.08)',
+                  // Middle card: strongest shadow when in view (anchor); solid shadow when alone
+                  ...(isPrimary
+                    ? {
+                        boxShadow: isInView
+                          ? '0 32px 80px rgba(0, 0, 0, 0.14), 0 12px 28px rgba(0, 0, 0, 0.08), 0 0 0 1px rgba(255, 255, 255, 0.6) inset'
+                          : '0 20px 50px rgba(0, 0, 0, 0.1), 0 8px 18px rgba(0, 0, 0, 0.06), 0 0 0 1px rgba(255, 255, 255, 0.6) inset',
+                      }
+                    : {}),
+                  willChange: 'transform, opacity, scale',
+                  backfaceVisibility: 'hidden',
+                  WebkitFontSmoothing: 'antialiased',
                 }}
               >
                 {/* Inner Highlight - Top Edge (Subtle) */}
@@ -286,6 +316,7 @@ export default function CaseStudies() {
                   </motion.div>
                 </div>
               </motion.div>
+              </div>
             )
           })}
         </div>

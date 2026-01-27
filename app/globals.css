@@ -16,6 +16,17 @@
 
 html {
   scroll-behavior: smooth;
+  /* Optimize for smooth scrolling */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Smooth scrolling with performance optimization */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
 }
 
 body {
@@ -26,6 +37,13 @@ body {
       rgb(var(--background-end-rgb))
     )
     rgb(var(--background-start-rgb));
+  /* Performance optimizations for smoothness */
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  /* GPU acceleration hints */
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
 }
 
 @layer utilities {
@@ -33,16 +51,20 @@ body {
     text-wrap: balance;
   }
   
-  /* Enhanced button styles */
+  /* Enhanced button styles - GPU optimized */
   .btn-primary {
     @apply relative px-8 py-4 text-white rounded-lg font-semibold text-lg shadow-xl transition-all duration-300 overflow-hidden;
     @apply bg-gradient-to-r from-primary-800 to-primary-500;
     @apply hover:shadow-2xl hover:scale-105 active:scale-95;
+    /* GPU acceleration */
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
   }
   
   .btn-primary::before {
     content: '';
     @apply absolute inset-0 bg-gradient-to-r from-primary-500 to-primary-800 opacity-0 transition-opacity duration-300;
+    will-change: opacity;
   }
   
   .btn-primary:hover::before {
@@ -58,9 +80,28 @@ body {
     @apply py-12 md:py-16 lg:py-20;
   }
   
-  /* Card hover effect */
+  /* Card hover effect - GPU optimized */
   .card-hover {
     @apply transition-all duration-300 hover:shadow-2xl hover:-translate-y-2;
+    will-change: transform, box-shadow;
+    transform: translateZ(0);
+  }
+  
+  /* Smooth animation utilities */
+  .smooth-transform {
+    will-change: transform;
+    transform: translateZ(0);
+    backface-visibility: hidden;
+  }
+  
+  .smooth-opacity {
+    will-change: opacity;
+  }
+  
+  .gpu-accelerated {
+    transform: translateZ(0);
+    backface-visibility: hidden;
+    perspective: 1000px;
   }
 }
 
@@ -82,15 +123,27 @@ body {
   background: linear-gradient(to bottom, #004B78, #00A485);
 }
 
-/* Smooth fade-in for scroll animations */
+/* Smooth fade-in for scroll animations - GPU optimized */
 @keyframes fadeInUp {
   from {
     opacity: 0;
-    transform: translateY(30px);
+    transform: translate3d(0, 30px, 0); /* Use translate3d for GPU acceleration */
   }
   to {
     opacity: 1;
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+/* Smooth scale animation */
+@keyframes smoothScale {
+  from {
+    opacity: 0;
+    transform: translate3d(0, 0, 0) scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0) scale(1);
   }
 }
 

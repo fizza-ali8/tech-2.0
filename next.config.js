@@ -33,6 +33,51 @@ const nextConfig = {
     pagesBufferLength: 5,
   },
   
+  // Power optimization for better performance
+  poweredByHeader: false,
+  
+  // Improve build performance
+  productionBrowserSourceMaps: false,
+  
+  // Webpack configuration to handle chunk loading issues
+  webpack: (config, { isServer, webpack }) => {
+    if (!isServer) {
+      // Improve chunk loading reliability and prevent timeouts
+      config.optimization = {
+        ...config.optimization,
+        splitChunks: {
+          chunks: 'all',
+          maxInitialRequests: 25,
+          minSize: 20000,
+          cacheGroups: {
+            default: false,
+            vendors: false,
+            framework: {
+              name: 'framework',
+              chunks: 'all',
+              test: /[\\/]node_modules[\\/](react|react-dom|scheduler|prop-types|use-subscription)[\\/]/,
+              priority: 40,
+              enforce: true,
+            },
+            common: {
+              name: 'commons',
+              minChunks: 2,
+              priority: 20,
+              reuseExistingChunk: true,
+            },
+          },
+        },
+      }
+      
+      // Increase chunk loading timeout
+      config.output = {
+        ...config.output,
+        chunkLoadTimeout: 30000, // 30 seconds
+      }
+    }
+    return config
+  },
+  
   // Headers for caching and performance
   async headers() {
     return [

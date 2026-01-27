@@ -156,10 +156,12 @@ export default function Testimonials() {
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.2 }}
-            transition={{ ...transitions.smooth, duration: 0.8 }}
-            className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1"
+            transition={{ ...transitions.ultraSmooth, duration: 0.8 }}
+            className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1 smooth-transform"
             style={{
               boxShadow: '0 20px 60px rgba(0, 164, 133, 0.15)',
+              willChange: 'transform, opacity',
+              transform: 'translateZ(0)',
             }}
           >
             <Image
@@ -169,6 +171,18 @@ export default function Testimonials() {
               className="object-cover"
               priority
               quality={90}
+              sizes="(max-width: 768px) 100vw, 50vw"
+              onError={(e) => {
+                console.error('Failed to load image:', e)
+                // Fallback handling
+                const target = e.target as HTMLImageElement
+                if (target) {
+                  target.style.display = 'none'
+                }
+              }}
+              onLoad={() => {
+                // Image loaded successfully
+              }}
             />
             {/* Subtle overlay for better text contrast if needed */}
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
@@ -183,17 +197,18 @@ export default function Testimonials() {
             >
               <div className="relative" style={{ minHeight: '400px' }}>
                 {/* Testimonial Card with Sliding Animation */}
-                <AnimatePresence mode="wait">
+                <AnimatePresence mode="wait" initial={false}>
                   <motion.div
                     key={currentIndex}
                     initial={{ opacity: 0, x: 100 }}
                     animate={{ opacity: 1, x: 0 }}
                     exit={{ opacity: 0, x: -100 }}
                     transition={{ 
-                      duration: 0.5, 
+                      duration: 0.6, 
                       ease: [0.22, 1, 0.36, 1],
+                      type: 'tween', // Use tween for smoother animation
                     }}
-                    className="relative group"
+                    className="relative group smooth-transform"
                     style={{
                       background: 'rgba(255, 255, 255, 0.75)',
                       backdropFilter: 'blur(8px)',
@@ -201,6 +216,8 @@ export default function Testimonials() {
                       borderRadius: '18px',
                       boxShadow: '0 20px 50px rgba(0, 0, 0, 0.12)',
                       padding: '2rem 2.5rem',
+                      willChange: 'transform, opacity', // GPU hint
+                      transform: 'translateZ(0)', // Force GPU acceleration
                     }}
                   >
                   {/* Quote Icon - Bigger & Accent Color */}

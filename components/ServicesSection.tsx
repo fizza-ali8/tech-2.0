@@ -298,7 +298,11 @@ export default function ServicesSection() {
                     >
                     {/* Image Section */}
                     <div
-                      className={`relative h-48 bg-gradient-to-br ${service.gradient} overflow-hidden rounded-t-2xl`}
+                      className={`relative h-48 bg-gradient-to-br ${service.gradient} overflow-hidden rounded-t-2xl smooth-transform`}
+                      style={{
+                        willChange: 'transform',
+                        transform: 'translateZ(0)',
+                      }}
                     >
                       {(() => {
                         const media = getServiceMedia(service.slug)
