@@ -19,13 +19,26 @@ export async function generateMetadata({
   const post = blogPostsBySlug[params.slug]
   if (!post) {
     return {
-      title: 'Blog Post Not Found',
+      title: 'Post Not Found',
       description: 'The requested blog post could not be found.',
     }
   }
+  const image = post.blogImage ?? post.cardImage
   return {
-    title: `${post.title} | Aurora Nexus Blog`,
+    title: post.title,
     description: post.excerpt,
+    openGraph: {
+      title: post.title,
+      description: post.excerpt,
+      type: 'article',
+      ...(image && { images: [image] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: post.title,
+      description: post.excerpt,
+      ...(image && { images: [image] }),
+    },
   }
 }
 

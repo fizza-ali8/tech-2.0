@@ -1,7 +1,7 @@
 import type { Metadata } from 'next'
 
 export const metadata: Metadata = {
-  title: 'Blog | Aurora Nexus',
+  title: 'Blog',
   description:
     'Expert insights on software development, AI, cloud, DevOps, design, and digital growth. Stay ahead with smart tech insights.',
 }

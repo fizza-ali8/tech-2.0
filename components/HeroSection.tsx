@@ -343,39 +343,23 @@ export default function HeroSection() {
       {/* Content */}
       <div className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
         {/* Small badge tag - Better integrated */}
-        <motion.div
-          initial={{ opacity: 0, y: 8 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4, ease: 'easeOut' }}
-          className="mb-6"
-        >
+        <div className="mb-6">
           <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-white/90 text-xs md:text-sm font-medium border border-white/20">
             <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-[#00A485]" />
             <span>Technology with Purpose</span>
           </div>
-        </motion.div>
+        </div>
 
         {/* Restructured Headline - One cohesive statement */}
-        <motion.h1
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.1, ease: 'easeOut' }}
+        <h1
           className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 leading-[1.1] px-2"
           style={{
             textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           }}
         >
           Transform Ideas into{' '}
-          <motion.span
-            className="bg-gradient-to-br from-[#004B78] via-[#00A485] to-[#004B78] bg-clip-text text-transparent bg-[length:200%_200%] inline-block"
-            animate={{
-              backgroundPosition: ['0% 0%', '100% 100%', '0% 0%'],
-            }}
-            transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: 'linear',
-            }}
+          <span
+            className="bg-gradient-to-br from-[#004B78] via-[#00A485] to-[#004B78] bg-clip-text text-transparent inline-block"
             style={{
               textShadow: '0 0 30px rgba(0, 164, 133, 0.4)',
               WebkitBackgroundClip: 'text',
@@ -383,88 +367,42 @@ export default function HeroSection() {
             }}
           >
             Powerful Digital Products
-          </motion.span>
-        </motion.h1>
+          </span>
+        </h1>
 
         {/* More specific value proposition */}
-        <motion.p
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.2, ease: 'easeOut' }}
+        <p
           className="text-lg sm:text-xl md:text-2xl text-white/90 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4 font-normal"
           style={{
             textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)',
           }}
         >
           Custom software and AI solutions that cut costs by 40% and accelerate time-to-market.
-        </motion.p>
+        </p>
 
-        {/* Stronger CTAs with better animations */}
-        <motion.div
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5, delay: 0.3, ease: 'easeOut' }}
-          className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center"
-        >
+        {/* Stronger CTAs */}
+        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
           {/* Primary CTA - Action oriented */}
-          <motion.a
+          <a
             href="/services"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.35, ease: 'easeOut' }}
-            whileHover={{
-              scale: 1.05,
-              y: -3,
-              boxShadow: '0 20px 40px rgba(0, 164, 133, 0.4)',
-            }}
-            whileTap={{ scale: 0.98 }}
-            className="group relative px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] overflow-hidden"
+            className="group relative px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(0,164,133,0.4)] overflow-hidden"
           >
-            {/* Animated gradient overlay */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-[#00A485] to-[#004B78] opacity-0 group-hover:opacity-100 transition-opacity duration-500"
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '100%' }}
-              transition={{ duration: 0.6, ease: 'easeInOut' }}
-            />
-            
-            {/* Shine effect */}
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-transparent via-white/30 to-transparent opacity-0 group-hover:opacity-100"
-              initial={{ x: '-100%' }}
-              whileHover={{ x: '200%' }}
-              transition={{ duration: 0.8, ease: 'easeInOut' }}
-            />
-            
             <span className="relative z-10 flex items-center gap-3">
               Our Services
-              <motion.div
-                className="relative z-10"
-                whileHover={{ x: 6 }}
-                transition={{ duration: 0.3, ease: 'easeOut' }}
-              >
+              <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1.5">
                 <ArrowRight className="w-6 h-6 md:w-7 md:h-7" />
-              </motion.div>
+              </span>
             </span>
-          </motion.a>
+          </a>
           
           {/* Secondary CTA - Action oriented */}
-          <motion.a
+          <a
             href="/contact"
-            initial={{ opacity: 0, y: 10 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.4, ease: 'easeOut' }}
-            whileHover={{
-              scale: 1.05,
-              y: -2,
-              backgroundColor: 'rgba(255, 255, 255, 0.15)',
-            }}
-            whileTap={{ scale: 0.98 }}
-            className="px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-lg md:text-xl transition-all duration-300 flex items-center gap-3 bg-white/10 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50"
+            className="px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-lg md:text-xl transition-all duration-300 flex items-center gap-3 bg-white/10 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50 hover:scale-[1.05] hover:-translate-y-0.5"
           >
             Start Your Project
-          </motion.a>
-        </motion.div>
+          </a>
+        </div>
       </div>
 
       {/* Scroll Indicator */}

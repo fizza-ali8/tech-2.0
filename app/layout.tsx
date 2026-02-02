@@ -13,19 +13,33 @@ const inter = Inter({
 })
 
 export const metadata: Metadata = {
-  title: 'Aurora Nexus - Technology with Purpose',
+  title: {
+    default: 'Aurora Nexus - Technology with Purpose',
+    template: '%s | Aurora Nexus',
+  },
   description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
+  keywords: ['software development', 'web development', 'AI solutions', 'digital products', 'technology consulting', 'Aurora Nexus'],
+  authors: [{ name: 'Aurora Nexus', url: 'https://www.auroranexus.tech' }],
+  creator: 'Aurora Nexus',
   openGraph: {
     type: 'website',
     locale: 'en_US',
     title: 'Aurora Nexus - Technology with Purpose',
     description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
+    // Resolved to absolute URL via metadataBase. Replace with /og-default.png (1200×630) when you add one.
+    images: ['/media/BestItSolution_home.jpg'],
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Aurora Nexus - Technology with Purpose',
+    description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
+    images: ['/media/BestItSolution_home.jpg'],
   },
   robots: {
     index: true,
     follow: true,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://aurora-nexus.com'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.auroranexus.tech'),
 }
 
 export default function RootLayout({

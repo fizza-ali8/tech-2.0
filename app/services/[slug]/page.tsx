@@ -17,12 +17,23 @@ export function generateMetadata({
   const service = servicesBySlug[params.slug]
   if (!service) {
     return {
-      title: 'Service Not Found | Aurora Nexus',
+      title: 'Service Not Found',
+      description: 'The requested service could not be found.',
     }
   }
   return {
-    title: `${service.title} | Aurora Nexus`,
+    title: service.title,
     description: service.shortDescription,
+    openGraph: {
+      title: service.title,
+      description: service.shortDescription,
+      type: 'website',
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: service.title,
+      description: service.shortDescription,
+    },
   }
 }
 

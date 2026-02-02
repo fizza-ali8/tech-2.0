@@ -23,9 +23,25 @@ export async function generateMetadata({
       description: 'The requested case study could not be found.',
     }
   }
+  const image =
+    caseStudy.image?.startsWith('/') && caseStudy.image !== '/placeholder-project.jpg'
+      ? caseStudy.image
+      : undefined
   return {
-    title: `${caseStudy.title} | Aurora Nexus Case Studies`,
+    title: caseStudy.title,
     description: caseStudy.shortDescription,
+    openGraph: {
+      title: caseStudy.title,
+      description: caseStudy.shortDescription,
+      type: 'article',
+      ...(image && { images: [image] }),
+    },
+    twitter: {
+      card: 'summary_large_image',
+      title: caseStudy.title,
+      description: caseStudy.shortDescription,
+      ...(image && { images: [image] }),
+    },
   }
 }
 
