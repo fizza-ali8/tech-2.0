@@ -5,44 +5,39 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
-  
-  // Image optimization
+
+  output: 'export',
+
+  trailingSlash: true,
+
+  // ✅ next/image optimization needs a server, so disable it
   images: {
+    unoptimized: true,
+    dangerouslyAllowSVG: true,
+    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
     formats: ['image/avif', 'image/webp'],
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],
     imageSizes: [16, 32, 48, 64, 96, 128, 256, 384],
     minimumCacheTTL: 60,
-    dangerouslyAllowSVG: true,
-    contentSecurityPolicy: "default-src 'self'; script-src 'none'; sandbox;",
   },
-  
-  // Compression
+
   compress: true,
-  
-  // Production optimizations
   swcMinify: true,
-  
-  // Experimental features for better performance
+
   experimental: {
     optimizePackageImports: ['lucide-react', 'framer-motion'],
   },
-  
-  // Increase timeout for chunk loading
+
   onDemandEntries: {
     maxInactiveAge: 60 * 1000,
     pagesBufferLength: 5,
   },
-  
-  // Power optimization for better performance
+
   poweredByHeader: false,
-  
-  // Improve build performance
   productionBrowserSourceMaps: false,
-  
-  // Webpack configuration to handle chunk loading issues
-  webpack: (config, { isServer, webpack }) => {
+
+  webpack: (config, { isServer }) => {
     if (!isServer) {
-      // Improve chunk loading reliability and prevent timeouts
       config.optimization = {
         ...config.optimization,
         splitChunks: {
@@ -68,56 +63,16 @@ const nextConfig = {
           },
         },
       }
-      
-      // Increase chunk loading timeout
+
       config.output = {
         ...config.output,
-        chunkLoadTimeout: 30000, // 30 seconds
+        chunkLoadTimeout: 30000,
       }
     }
     return config
   },
-  
-  // Headers for caching and performance
-  async headers() {
-    return [
-      {
-        source: '/media/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: 'public, max-age=31536000, immutable',
-          },
-        ],
-      },
-      {
-        source: '/_next/static/:path*',
-        headers: [
-          {
-            key: 'Cache-Control',
-            value: process.env.NODE_ENV === 'production' 
-              ? 'public, max-age=31536000, immutable'
-              : 'public, max-age=0, must-revalidate',
-          },
-        ],
-      },
-      {
-        source: '/:path*',
-        headers: [
-          {
-            key: 'X-DNS-Prefetch-Control',
-            value: 'on',
-          },
-          {
-            key: 'X-Frame-Options',
-            value: 'SAMEORIGIN',
-          },
-        ],
-      },
-    ]
-  },
+
+  // ❌ headers() does not apply on static export in shared hosting
 }
 
 module.exports = withBundleAnalyzer(nextConfig)
-
-
