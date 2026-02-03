@@ -35,7 +35,7 @@ export const getServiceMedia = (slug: string) => {
     },
     'devops': {
       animation: '/media/devops_animation.mp4',
-      image: '/media/devops_image].jpg', // Note: keeping original filename with typo
+      image: '/media/devops_image.jpg',
     },
   }
 

@@ -2,34 +2,11 @@
 
 import { motion } from 'framer-motion'
 import { Calendar, ArrowRight, BookOpen } from 'lucide-react'
+import { blogPosts, categoryLabels, formatDate } from '@/lib/blog'
 
 export default function Blogs() {
-  const blogs = [
-    {
-      title: 'The Future of AI in Business Automation',
-      excerpt:
-        'Discover how AI automation is transforming business operations and driving efficiency across industries.',
-      date: 'March 15, 2024',
-      category: 'AI & Automation',
-      readTime: '5 min read',
-    },
-    {
-      title: 'Best Practices for Cloud Migration',
-      excerpt:
-        'Learn the essential strategies and considerations for successfully migrating your infrastructure to the cloud.',
-      date: 'March 10, 2024',
-      category: 'Cloud Services',
-      readTime: '7 min read',
-    },
-    {
-      title: 'UI/UX Design Trends for 2024',
-      excerpt:
-        'Explore the latest design trends that are shaping user experiences in digital products this year.',
-      date: 'March 5, 2024',
-      category: 'Design',
-      readTime: '6 min read',
-    },
-  ]
+  // Get the first 3 blog posts from the actual blog data
+  const blogs = blogPosts.slice(0, 3)
 
   return (
     <section
@@ -60,7 +37,7 @@ export default function Blogs() {
         <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8 mb-8 md:mb-12">
           {blogs.map((blog, index) => (
             <motion.article
-              key={blog.title}
+              key={blog.slug}
               initial={{ opacity: 0, y: 40, scale: 0.95 }}
               whileInView={{ opacity: 1, y: 0, scale: 1 }}
               viewport={{ once: false, margin: '-50px' }}
@@ -78,7 +55,7 @@ export default function Blogs() {
             >
               <div className="flex items-center gap-2 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                 <BookOpen className="w-3 h-3 sm:w-4 sm:h-4" />
-                <span>{blog.category}</span>
+                <span>{categoryLabels[blog.category]}</span>
               </div>
               <h3 className="text-lg sm:text-xl md:text-2xl font-bold text-gray-900 mb-2 sm:mb-3 group-hover:text-[#00A485] transition-colors">
                 {blog.title}
@@ -89,12 +66,12 @@ export default function Blogs() {
               <div className="flex items-center justify-between text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
                 <div className="flex items-center gap-2">
                   <Calendar className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>{blog.date}</span>
+                  <span>{formatDate(blog.date)}</span>
                 </div>
                 <span>{blog.readTime}</span>
               </div>
               <motion.a
-                href="#"
+                href={`/blog/${blog.slug}`}
                 className="inline-flex items-center gap-2 text-sm sm:text-base font-semibold group-hover:gap-3 transition-all"
                 style={{ color: '#00A485' }}
                 whileHover={{ x: 5 }}

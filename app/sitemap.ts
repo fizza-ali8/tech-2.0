@@ -4,7 +4,7 @@ import { blogPosts } from '@/lib/blog'
 import { caseStudies } from '@/lib/case-studies'
 
 export default function sitemap(): MetadataRoute.Sitemap {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.auroranexus.tech'
+  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://auroranexus.tech/'
 
   const staticRoutes: MetadataRoute.Sitemap = [
     { url: baseUrl, lastModified: new Date(), changeFrequency: 'weekly', priority: 1 },

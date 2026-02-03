@@ -19,7 +19,7 @@ export const metadata: Metadata = {
   },
   description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
   keywords: ['software development', 'web development', 'AI solutions', 'digital products', 'technology consulting', 'Aurora Nexus'],
-  authors: [{ name: 'Aurora Nexus', url: 'https://www.auroranexus.tech' }],
+  authors: [{ name: 'Aurora Nexus', url: 'https://auroranexus.tech/' }],
   creator: 'Aurora Nexus',
   openGraph: {
     type: 'website',
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://www.auroranexus.tech'),
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://auroranexus.tech/'),
 }
 
 export default function RootLayout({
