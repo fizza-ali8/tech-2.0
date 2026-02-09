@@ -126,33 +126,36 @@ export default function HeroSection() {
           muted
           playsInline
           preload="metadata"
+          poster="/media/hero-poster.png"
           className="absolute inset-0 w-full h-full object-cover"
           style={{ objectFit: 'cover' }}
           onLoadedData={(e) => {
-            // Start playing once metadata is loaded
             const video = e.currentTarget
-            video.play().catch(() => {
-              // Ignore autoplay errors
-            })
+            video.play().catch(() => {})
           }}
         >
           <source src="/media/home_hero.mp4" type="video/mp4" />
         </video>
-        {/* Darker overlay for better text readability */}
-        <div className="absolute inset-0 bg-black/50 z-10"></div>
-        {/* Subtle blur effect on video for better contrast */}
-        <div 
+        {/* Dark gradient overlay - darker at bottom for readability */}
+        <div
           className="absolute inset-0 z-10"
           style={{
-            backdropFilter: 'blur(1px)',
+            background: 'linear-gradient(to bottom, rgba(0,0,0,0.5) 0%, rgba(0,0,0,0.7) 100%)',
           }}
-        ></div>
+        />
+        {/* Subtle teal/blue brand tint */}
+        <div
+          className="absolute inset-0 z-10"
+          style={{
+            background: 'linear-gradient(135deg, rgba(0,75,120,0.12) 0%, rgba(0,164,133,0.06) 100%)',
+          }}
+        />
       </div>
 
-      {/* Animated Background Orbs */}
-      <div className="absolute inset-0 overflow-hidden z-20">
+      {/* Animated Background Orbs - heavily faded so video is the star */}
+      <div className="absolute inset-0 overflow-hidden z-20 opacity-[0.07]">
         <motion.div
-          className="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          className="absolute top-20 left-10 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl"
           style={{ backgroundColor: '#00A485' }}
           animate={{
             scale: [1, 1.2, 1],
@@ -166,7 +169,7 @@ export default function HeroSection() {
           }}
         />
         <motion.div
-          className="absolute top-40 right-10 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          className="absolute top-40 right-10 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl"
           style={{ backgroundColor: '#004B78' }}
           animate={{
             scale: [1, 1.3, 1],
@@ -180,7 +183,7 @@ export default function HeroSection() {
           }}
         />
         <motion.div
-          className="absolute -bottom-8 left-1/2 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl opacity-20"
+          className="absolute -bottom-8 left-1/2 w-64 h-64 md:w-96 md:h-96 rounded-full mix-blend-multiply filter blur-xl"
           style={{ backgroundColor: '#00A485' }}
           animate={{
             scale: [1, 1.1, 1],
@@ -195,9 +198,9 @@ export default function HeroSection() {
         />
       </div>
 
-      {/* Lottie Tech Animation - Behind Content */}
+      {/* Lottie Tech Animation - heavily faded */}
       {animationData && (
-        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 opacity-25">
+        <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 opacity-[0.06]">
           <div className="w-full h-full max-w-5xl mx-auto">
             <Lottie
               animationData={animationData}
@@ -209,8 +212,8 @@ export default function HeroSection() {
         </div>
       )}
 
-      {/* Fallback Tech Visualization - Animated System Architecture */}
-      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20">
+      {/* Fallback Tech Visualization - heavily faded */}
+      <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-20 opacity-[0.06]">
         <div className="relative w-full h-full max-w-5xl mx-auto">
           {/* Animated Tech System */}
           <motion.div
@@ -340,19 +343,19 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Content */}
-      <div className="relative z-30 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      {/* Content - mobile-first padding and typography */}
+      <div className="relative z-30 max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-0 text-center">
         {/* Small badge tag - Better integrated */}
-        <div className="mb-6">
-          <div className="inline-flex items-center gap-2 px-4 py-1.5 bg-white/10 backdrop-blur-md rounded-full text-white/90 text-xs md:text-sm font-medium border border-white/20">
+        <div className="mb-4 sm:mb-6">
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 bg-white/10 backdrop-blur-md rounded-full text-white/90 text-xs md:text-sm font-medium border border-white/20">
             <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-[#00A485]" />
             <span>Technology with Purpose</span>
           </div>
         </div>
 
-        {/* Restructured Headline - One cohesive statement */}
+        {/* Restructured Headline - smaller on very narrow screens */}
         <h1
-          className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 md:mb-8 leading-[1.1] px-2"
+          className="text-2xl min-[480px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 leading-[1.15] px-1 sm:px-2"
           style={{
             textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
           }}
@@ -370,9 +373,9 @@ export default function HeroSection() {
           </span>
         </h1>
 
-        {/* More specific value proposition */}
+        {/* More specific value proposition - readable on small screens */}
         <p
-          className="text-lg sm:text-xl md:text-2xl text-white/90 mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-4 font-normal"
+          className="text-base sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 font-normal"
           style={{
             textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)',
           }}
@@ -380,25 +383,22 @@ export default function HeroSection() {
           Custom software and AI solutions that cut costs by 40% and accelerate time-to-market.
         </p>
 
-        {/* Stronger CTAs */}
-        <div className="flex flex-col sm:flex-row gap-4 md:gap-6 justify-center items-center">
-          {/* Primary CTA - Action oriented */}
+        {/* Stronger CTAs - full width on mobile, touch-friendly */}
+        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto">
           <a
             href="/services"
-            className="group relative px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(0,164,133,0.4)] overflow-hidden"
+            className="group relative px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-base sm:text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(0,164,133,0.4)] overflow-hidden min-h-[48px] touch-manipulation"
           >
             <span className="relative z-10 flex items-center gap-3">
               Our Services
               <span className="relative z-10 transition-transform duration-300 group-hover:translate-x-1.5">
-                <ArrowRight className="w-6 h-6 md:w-7 md:h-7" />
+                <ArrowRight className="w-5 h-5 sm:w-6 sm:h-6 md:w-7 md:h-7" />
               </span>
             </span>
           </a>
-          
-          {/* Secondary CTA - Action oriented */}
           <a
             href="/contact"
-            className="px-10 py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-lg md:text-xl transition-all duration-300 flex items-center gap-3 bg-white/10 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50 hover:scale-[1.05] hover:-translate-y-0.5"
+            className="px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50 hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 min-h-[48px] touch-manipulation"
           >
             Start Your Project
           </a>

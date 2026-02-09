@@ -90,47 +90,48 @@ export default function Navbar() {
             })}
           </div>
 
-          {/* Mobile Menu Button */}
+          {/* Mobile Menu Button - min 44px touch target */}
           <motion.button
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ ...transitions.smooth, delay: 0.2 }}
-            className="md:hidden text-gray-700"
+            className="md:hidden text-gray-700 p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           >
             {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
           </motion.button>
         </div>
       </div>
 
-      {/* Mobile Menu */}
+      {/* Mobile Menu - touch-friendly links, safe area padding */}
       {isMobileMenuOpen && (
         <motion.div
           initial={{ opacity: 0, height: 0 }}
           animate={{ opacity: 1, height: 'auto' }}
           exit={{ opacity: 0, height: 0 }}
-          className="md:hidden bg-white border-t"
+          className="md:hidden bg-white border-t border-gray-200 shadow-lg"
         >
-          <div className="px-4 py-4 space-y-4">
+          <nav className="px-4 py-3" aria-label="Mobile navigation">
             {navLinks.map((link) => {
-              const isActive = pathname === link.href || 
+              const isActive = pathname === link.href ||
                 (link.href === '/services' && pathname?.startsWith('/services'))
               return (
                 <a
                   key={link.name}
                   href={link.href}
                   onClick={() => setIsMobileMenuOpen(false)}
-                  className={`block transition-colors ${
+                  className={`block py-3.5 px-2 -mx-2 rounded-lg text-base font-medium min-h-[44px] flex items-center transition-colors active:bg-gray-100 ${
                     isActive
-                      ? 'text-[#00A485] font-semibold'
-                      : 'text-gray-700 hover:text-[#00A485]'
+                      ? 'text-[#00A485] font-semibold bg-[#00A485]/5'
+                      : 'text-gray-700 hover:text-[#00A485] hover:bg-gray-50'
                   }`}
                 >
                   {link.name}
                 </a>
               )
             })}
-          </div>
+          </nav>
         </motion.div>
       )}
     </motion.nav>

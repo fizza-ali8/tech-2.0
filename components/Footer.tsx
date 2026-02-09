@@ -86,14 +86,14 @@ export default function Footer() {
       
       <motion.div 
         {...footerFadeIn}
-        className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-24"
+        className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-24"
       >
         <motion.div 
           variants={staggerContainer}
           initial="initial"
           whileInView="animate"
           viewport={{ once: true, amount: 0.1 }}
-          className="grid sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-10 md:gap-12 mb-8 sm:mb-12"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 sm:gap-10 md:gap-12 mb-6 sm:mb-12"
         >
           {/* Company Info */}
           <motion.div variants={staggerItem}>
@@ -142,7 +142,7 @@ export default function Footer() {
                 >
                   <Link
                     href={link.href}
-                    className="group inline-flex items-center gap-2 text-sm sm:text-base text-gray-400 hover:text-[#00A485] transition-all duration-300"
+                    className="group inline-flex items-center gap-2 text-sm sm:text-base text-gray-400 hover:text-[#00A485] transition-all duration-300 py-1.5 -my-1.5 touch-manipulation"
                   >
                     <motion.span
                       whileHover={{ x: 4 }}
@@ -170,7 +170,7 @@ export default function Footer() {
                 >
                   <Link
                     href={`/services/${service.slug}`}
-                    className="group inline-flex items-center gap-2 text-sm sm:text-base text-gray-400 hover:text-[#00A485] transition-all duration-300"
+                    className="group inline-flex items-center gap-2 text-sm sm:text-base text-gray-400 hover:text-[#00A485] transition-all duration-300 py-1.5 -my-1.5 touch-manipulation"
                   >
                     <motion.span
                       whileHover={{ x: 4 }}
@@ -192,7 +192,7 @@ export default function Footer() {
                 <Mail className="w-4 h-4 sm:w-5 sm:h-5 mt-1 flex-shrink-0" style={{ color: '#00A485' }} />
                 <a
                   href="mailto:contact@auroranexus.io"
-                  className="text-xs sm:text-sm text-gray-400 hover:text-[#00A485] transition-colors break-all"
+                  className="text-xs sm:text-sm text-gray-400 hover:text-[#00A485] transition-colors break-all py-1 touch-manipulation inline-block"
                 >
                   contact@auroranexus.io
                 </a>
@@ -201,7 +201,7 @@ export default function Footer() {
                 <Phone className="w-4 h-4 sm:w-5 sm:h-5 mt-1 flex-shrink-0" style={{ color: '#00A485' }} />
                 <a
                   href="tel:+923408110022"
-                  className="text-xs sm:text-sm text-gray-400 hover:text-[#00A485] transition-colors"
+                  className="text-xs sm:text-sm text-gray-400 hover:text-[#00A485] transition-colors py-1 touch-manipulation inline-block"
                 >
                   +92 34 08 11 00 22
                 </a>

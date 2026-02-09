@@ -5,6 +5,7 @@ import Link from 'next/link'
 import { ArrowRight, Sparkles, Send } from 'lucide-react'
 import { services } from '@/lib/services'
 import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 
 export default function ServiceSidebar({ currentSlug }: { currentSlug: string }) {
   const [formData, setFormData] = useState({
@@ -14,11 +15,29 @@ export default function ServiceSidebar({ currentSlug }: { currentSlug: string })
     service: '',
     message: '',
   })
+  const [isSubmitting, setIsSubmitting] = useState(false)
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission
-    console.log('Form submitted:', formData)
+    setIsSubmitting(true)
+    try {
+      const { error } = await supabase.from('contact_submissions').insert({
+        name: formData.name,
+        email: formData.email,
+        phone: formData.phone || null,
+        service: formData.service || null,
+        message: formData.message,
+        source: 'sidebar',
+      })
+      if (error) throw error
+      alert('Thank you! We will contact you soon.')
+      setFormData({ name: '', email: '', phone: '', service: '', message: '' })
+    } catch (err) {
+      console.error(err)
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -115,11 +134,12 @@ export default function ServiceSidebar({ currentSlug }: { currentSlug: string })
           />
           <motion.button
             type="submit"
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
-            className="w-full py-3 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2"
+            disabled={isSubmitting}
+            whileHover={!isSubmitting ? { scale: 1.02 } : undefined}
+            whileTap={!isSubmitting ? { scale: 0.98 } : undefined}
+            className="w-full py-3 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed"
           >
-            SUBMIT NOW
+            {isSubmitting ? 'Sending...' : 'SUBMIT NOW'}
             <Send className="w-4 h-4" />
           </motion.button>
         </form>

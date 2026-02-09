@@ -12,6 +12,7 @@
     "clean": "rm -rf .next node_modules/.cache"
   },
   "dependencies": {
+    "@supabase/supabase-js": "^2.94.1",
     "framer-motion": "^10.16.16",
     "lottie-react": "^2.4.1",
     "lucide-react": "^0.294.0",

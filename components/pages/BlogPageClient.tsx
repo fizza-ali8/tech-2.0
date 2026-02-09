@@ -14,19 +14,37 @@ import {
   formatDate,
   type BlogCategory,
 } from '@/lib/blog'
+import { supabase } from '@/lib/supabase'
 import { sectionFadeIn, imageScaleIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function BlogPageClient() {
   const [selectedCategory, setSelectedCategory] = useState<BlogCategory>('all')
   const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const filteredPosts = getFilteredPosts(selectedCategory)
   const featuredPost = getFeaturedPost()
 
-  const handleNewsletterSubmit = (e: React.FormEvent) => {
+  const handleNewsletterSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    console.log('Newsletter subscription:', email)
-    alert('Thank you for subscribing!')
-    setEmail('')
+    setIsSubmitting(true)
+    try {
+      const { error } = await supabase.from('newsletter_subscribers').insert({
+        email: email.trim().toLowerCase(),
+      })
+      if (error) {
+        if (error.code === '23505') {
+          alert('This email is already subscribed.')
+        } else throw error
+      } else {
+        alert('Thank you for subscribing!')
+        setEmail('')
+      }
+    } catch (err) {
+      console.error(err)
+      alert('Something went wrong. Please try again.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -41,10 +59,10 @@ export default function BlogPageClient() {
             }}
           />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
+        <div className="relative max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-28">
           <motion.h1
             {...sectionFadeIn}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
+            className="text-2xl min-[480px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
           >
             Insights, Ideas &{' '}
             <span className="bg-white/20 px-2 rounded-md">Innovation</span>
@@ -62,8 +80,8 @@ export default function BlogPageClient() {
       </section>
 
       {/* Intro Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-10 sm:py-16 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <motion.div {...sectionFadeIn} className="text-center max-w-3xl mx-auto">
             <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
               Knowledge That Drives Smarter Decisions
@@ -289,12 +307,14 @@ export default function BlogPageClient() {
                 required
               />
               <motion.button
+                type="submit"
+                disabled={isSubmitting}
                 {...buttonFadeIn}
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-                className="px-6 py-3 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300"
+                whileHover={!isSubmitting ? { scale: 1.05 } : undefined}
+                whileTap={!isSubmitting ? { scale: 0.95 } : undefined}
+                className="px-6 py-3 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
               >
-                Subscribe
+                {isSubmitting ? 'Subscribing...' : 'Subscribe'}
               </motion.button>
             </form>
           </motion.div>

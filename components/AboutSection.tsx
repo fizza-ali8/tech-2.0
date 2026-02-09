@@ -33,15 +33,15 @@ export default function AboutSection() {
       id="about"
       className="section-spacing bg-white relative overflow-hidden"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div
           initial={shouldReduceMotion ? { opacity: 1, y: 0 } : { opacity: 0, y: 40 }}
           whileInView={shouldReduceMotion ? {} : { opacity: 1, y: 0 }}
           viewport={{ once: false, margin: '-100px' }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-10 sm:mb-16 md:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 md:mb-8 px-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8 px-2 sm:px-4">
             About Us –{' '}
             <span className="bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent">
               Technology with Purpose
@@ -50,17 +50,17 @@ export default function AboutSection() {
           <div className="w-32 h-1.5 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto rounded-full" />
         </motion.div>
 
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16 lg:gap-20 items-center mb-16 md:mb-20">
+        <div className="grid md:grid-cols-2 gap-8 sm:gap-12 md:gap-16 lg:gap-20 items-center mb-10 sm:mb-16 md:mb-20">
           <motion.div
             initial={shouldReduceMotion ? { opacity: 1, x: 0 } : { opacity: 0, x: -50 }}
             whileInView={shouldReduceMotion ? {} : { opacity: 1, x: 0 }}
             viewport={{ once: false, margin: '-50px' }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
           >
-            <h3 className="text-3xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-6 md:mb-8 leading-tight">
+            <h3 className="text-2xl sm:text-4xl md:text-5xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8 leading-tight">
               Your Partner in Digital Transformation
             </h3>
-            <p className="text-lg sm:text-xl text-gray-600 leading-relaxed mb-6 md:mb-8">
+            <p className="text-base sm:text-xl text-gray-600 leading-relaxed mb-5 sm:mb-6 md:mb-8">
               At Aurora Nexus, we help businesses transform ideas into scalable
               digital solutions that drive real results. With a focus on
               innovation, quality, and responsiveness, we deliver services that
@@ -74,7 +74,7 @@ export default function AboutSection() {
                 boxShadow: '0 10px 30px rgba(0, 164, 133, 0.3)'
               }}
               whileTap={{ scale: 0.95 }}
-              className="group relative inline-flex items-center gap-2 px-8 py-4 text-white rounded-xl font-semibold text-lg shadow-xl transition-all duration-300 overflow-hidden bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78]"
+              className="group relative inline-flex items-center gap-2 px-6 py-3.5 sm:px-8 sm:py-4 text-white rounded-xl font-semibold text-base sm:text-lg shadow-xl transition-all duration-300 overflow-hidden bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] min-h-[48px] touch-manipulation"
             >
               <motion.div
                 className="absolute inset-0 bg-gradient-to-r from-[#00A485] to-[#004B78] opacity-0 group-hover:opacity-100 transition-opacity duration-300"

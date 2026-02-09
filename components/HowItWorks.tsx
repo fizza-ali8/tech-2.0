@@ -48,15 +48,15 @@ export default function HowItWorks() {
       id="process"
       className="section-spacing bg-white"
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 50 }}
           whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: false, margin: '-100px' }}
+          viewport={{ once: false, margin: '-80px' }}
           transition={{ duration: 0.8, ease: 'easeOut' }}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-10 sm:mb-16 md:mb-20"
         >
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-6 md:mb-8 px-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold mb-4 sm:mb-6 md:mb-8 px-2 sm:px-4">
             <motion.span
               initial={{ opacity: 0, x: -30 }}
               whileInView={{ opacity: 1, x: 0 }}
@@ -81,7 +81,7 @@ export default function HowItWorks() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: false }}
             transition={{ duration: 0.7, delay: 0.3, ease: 'easeOut' }}
-            className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-8 md:mb-10 px-4 leading-relaxed"
+            className="text-base sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-10 px-2 sm:px-4 leading-relaxed"
           >
             We follow a structured approach to deliver high-quality IT solutions
             that align with your business goals.
@@ -133,7 +133,7 @@ export default function HowItWorks() {
             />
           ))}
 
-          <div className="grid sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-5 sm:gap-8 md:gap-12 lg:gap-16 max-w-7xl mx-auto px-3 sm:px-4">
             {steps.map((step, index) => (
               <motion.div
                 key={step.title}
@@ -142,24 +142,22 @@ export default function HowItWorks() {
                   opacity: 1, 
                   x: 0
                 }}
-                viewport={{ once: false, margin: '-100px' }}
+                viewport={{ once: false, margin: '-50px' }}
                 transition={{ 
                   duration: 0.7,
                   delay: index * 0.15,
                   ease: 'easeOut'
                 }}
-                className="relative z-10 flex"
+                className="relative z-10 flex min-w-0"
               >
                 <motion.div
                   whileHover={{ 
                     y: -8,
                     scale: 1.02,
                   }}
-                  className="bg-white p-7 sm:p-9 lg:p-11 rounded-2xl transition-all duration-300 border border-gray-200 group-hover:border-[#00A485]/30 relative group overflow-hidden flex flex-col h-full w-full"
+                  className="bg-white p-5 sm:p-9 lg:p-11 rounded-2xl transition-all duration-300 border border-gray-200 group-hover:border-[#00A485]/30 relative group overflow-hidden flex flex-col h-full w-full min-w-0 min-h-[280px] sm:min-h-[300px] md:min-h-[320px]"
                   style={{
                     boxShadow: '0 10px 30px rgba(0, 0, 0, 0.1), 0 4px 12px rgba(0, 0, 0, 0.06)',
-                    minHeight: '320px',
-                    minWidth: '240px',
                   }}
                 >
                   {/* Subtle gradient background on hover */}

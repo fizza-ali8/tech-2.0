@@ -4,6 +4,7 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Mail, Phone, MapPin, Clock, CheckCircle } from 'lucide-react'
 import { services } from '@/lib/services'
 import { useState } from 'react'
+import { supabase } from '@/lib/supabase'
 import { sectionFadeIn, buttonFadeIn, cardFadeInUp, transitions, getStaggerDelay, staggerContainer, staggerItem } from '@/lib/animations'
 
 export default function ContactPage() {
@@ -21,11 +22,17 @@ export default function ContactPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setIsSubmitting(true)
-    // Handle form submission
-    console.log('Form submitted:', formData)
-    // Simulate API call
-    setTimeout(() => {
-      setIsSubmitting(false)
+    try {
+      const { error } = await supabase.from('contact_submissions').insert({
+        name: formData.name,
+        company: formData.company || null,
+        email: formData.email,
+        phone: formData.phone || null,
+        service: formData.service || null,
+        message: formData.message,
+        source: 'contact',
+      })
+      if (error) throw error
       alert('Thank you! We will contact you soon.')
       setFormData({
         name: '',
@@ -35,7 +42,12 @@ export default function ContactPage() {
         service: '',
         message: '',
       })
-    }, 1000)
+    } catch (err) {
+      console.error(err)
+      alert('Something went wrong. Please try again or email us directly.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const whyPoints = [
@@ -59,10 +71,10 @@ export default function ContactPage() {
             }}
           />
         </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16 sm:py-20 md:py-28">
+        <div className="relative max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-12 sm:py-20 md:py-28">
           <motion.h1
             {...sectionFadeIn}
-            className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center"
+            className="text-2xl min-[480px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold leading-tight text-center px-1"
           >
             Let&apos;s Build Something{' '}
             <span className="bg-white/20 px-2 rounded-md">Great Together</span>
@@ -79,16 +91,16 @@ export default function ContactPage() {
       </section>
 
       {/* Intro Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <section className="py-10 sm:py-16 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <motion.div
             {...sectionFadeIn}
             className="text-center max-w-3xl mx-auto"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               We&apos;re Here to Help
             </h2>
-            <p className="text-base sm:text-lg text-gray-600 leading-relaxed">
+            <p className="text-base sm:text-lg text-gray-600 leading-relaxed px-1 sm:px-0">
               Whether you&apos;re looking to build a new product, optimize existing
               systems, or explore AI, cloud, or design solutions, our experts are
               ready to guide you. Tell us about your goals and we&apos;ll show you how
@@ -99,24 +111,24 @@ export default function ContactPage() {
       </section>
 
       {/* Contact Form & Info Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid lg:grid-cols-3 gap-8 lg:gap-12">
-            {/* Contact Form */}
+      <section className="py-10 sm:py-16 md:py-20 bg-gradient-to-b from-gray-50 to-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-12">
+            {/* Contact Form - touch-friendly inputs on mobile */}
             <div className="lg:col-span-2">
               <motion.div
                 {...cardFadeInUp}
-                className="bg-white rounded-2xl shadow-lg border border-gray-100 p-6 sm:p-8"
+                className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 sm:p-8"
               >
-                <h3 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-6">
+                <h3 className="text-xl sm:text-3xl font-bold text-gray-900 mb-5 sm:mb-6">
                   Request a Free Consultation
                 </h3>
-                <form onSubmit={handleSubmit} className="space-y-5">
-                  <div className="grid sm:grid-cols-2 gap-5">
+                <form onSubmit={handleSubmit} className="space-y-4 sm:space-y-5">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label
                         htmlFor="name"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700 mb-1.5"
                       >
                         Full Name <span className="text-red-500">*</span>
                       </label>
@@ -127,14 +139,14 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, name: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm transition-all"
+                        className="w-full px-4 py-3 min-h-[48px] border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm transition-all touch-manipulation"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="company"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700 mb-1.5"
                       >
                         Company Name
                       </label>
@@ -145,16 +157,16 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, company: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm transition-all"
+                        className="w-full px-4 py-3 min-h-[48px] border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm transition-all touch-manipulation"
                       />
                     </div>
                   </div>
 
-                  <div className="grid sm:grid-cols-2 gap-5">
+                  <div className="grid sm:grid-cols-2 gap-4 sm:gap-5">
                     <div>
                       <label
                         htmlFor="email"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700 mb-1.5"
                       >
                         Email Address <span className="text-red-500">*</span>
                       </label>
@@ -165,14 +177,14 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, email: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm transition-all"
+                        className="w-full px-4 py-3 min-h-[48px] border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm transition-all touch-manipulation"
                         required
                       />
                     </div>
                     <div>
                       <label
                         htmlFor="phone"
-                        className="block text-sm font-medium text-gray-700 mb-2"
+                        className="block text-sm font-medium text-gray-700 mb-1.5"
                       >
                         Phone Number
                       </label>
@@ -183,7 +195,7 @@ export default function ContactPage() {
                         onChange={(e) =>
                           setFormData({ ...formData, phone: e.target.value })
                         }
-                        className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm transition-all"
+                        className="w-full px-4 py-3 min-h-[48px] border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm transition-all touch-manipulation"
                       />
                     </div>
                   </div>
@@ -191,7 +203,7 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="service"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-gray-700 mb-1.5"
                     >
                       Service Interested In
                     </label>
@@ -201,7 +213,7 @@ export default function ContactPage() {
                       onChange={(e) =>
                         setFormData({ ...formData, service: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm text-gray-700 transition-all appearance-none cursor-pointer bg-white"
+                      className="w-full px-4 py-3 min-h-[48px] border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm text-gray-700 transition-all appearance-none cursor-pointer bg-white touch-manipulation"
                     >
                       <option value="">Select a Service</option>
                       {services.map((service) => (
@@ -215,18 +227,18 @@ export default function ContactPage() {
                   <div>
                     <label
                       htmlFor="message"
-                      className="block text-sm font-medium text-gray-700 mb-2"
+                      className="block text-sm font-medium text-gray-700 mb-1.5"
                     >
                       Project Description / Message <span className="text-red-500">*</span>
                     </label>
                     <textarea
                       id="message"
-                      rows={6}
+                      rows={5}
                       value={formData.message}
                       onChange={(e) =>
                         setFormData({ ...formData, message: e.target.value })
                       }
-                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-sm resize-none transition-all"
+                      className="w-full px-4 py-3 border border-gray-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#00A485] focus:border-transparent text-base sm:text-sm resize-none transition-all touch-manipulation min-h-[120px]"
                       placeholder="Tell us about your project, goals, or any specific requirements..."
                       required
                     />
@@ -238,7 +250,7 @@ export default function ContactPage() {
                     disabled={isSubmitting}
                     whileHover={{ scale: 1.02 }}
                     whileTap={{ scale: 0.98 }}
-                    className="w-full py-4 bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold text-base md:text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full py-4 min-h-[52px] bg-gradient-to-r from-[#004B78] to-[#00A485] text-white font-semibold text-base md:text-lg rounded-lg shadow-lg hover:shadow-xl transition-all duration-300 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
                   >
                     {isSubmitting ? 'Sending...' : 'Get Free Consultation'}
                     <ArrowRight className="w-5 h-5" />
@@ -355,32 +367,31 @@ export default function ContactPage() {
         </div>
       </section>
 
-      {/* Map Section */}
-      <section className="py-12 sm:py-16 md:py-20 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      {/* Map Section - shorter iframes on mobile */}
+      <section className="py-10 sm:py-16 md:py-20 bg-white">
+        <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
           <motion.div
             {...sectionFadeIn}
-            className="text-center mb-8 sm:mb-12"
+            className="text-center mb-6 sm:mb-12"
           >
-            <h2 className="text-2xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            <h2 className="text-xl sm:text-3xl md:text-4xl font-bold text-gray-900 mb-3 sm:mb-4">
               Find Us Here
             </h2>
             <div className="w-24 h-1 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto" />
           </motion.div>
           
-          {/* Two Maps - Grid Layout */}
-          <div className="grid md:grid-cols-2 gap-6 md:gap-8">
+          <div className="grid md:grid-cols-2 gap-4 sm:gap-6 md:gap-8">
             {/* Rawalpindi Location */}
             <motion.div
               {...cardFadeInUp}
               transition={{ ...transitions.smooth, delay: 0.1 }}
               className="rounded-2xl overflow-hidden shadow-lg border border-gray-100"
             >
-              <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-4">
-                <h3 className="text-lg font-semibold text-white">Rawalpindi Office</h3>
-                <p className="text-sm text-white/90 mt-1">Innovista Rawal, Avenue Mall, DHA-1</p>
+              <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white">Rawalpindi Office</h3>
+                <p className="text-xs sm:text-sm text-white/90 mt-1">Innovista Rawal, Avenue Mall, DHA-1</p>
               </div>
-              <div className="w-full h-80">
+              <div className="w-full h-56 sm:h-72 md:h-80">
                 <iframe
                   src="https://www.google.com/maps?q=Innovista+Rawal,+Avenue+Mall,+DHA-1,+Rawalpindi&output=embed"
                   width="100%"
@@ -401,11 +412,11 @@ export default function ContactPage() {
               transition={{ ...transitions.smooth, delay: 0.2 }}
               className="rounded-2xl overflow-hidden shadow-lg border border-gray-100"
             >
-              <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-4">
-                <h3 className="text-lg font-semibold text-white">Islamabad Office</h3>
-                <p className="text-sm text-white/90 mt-1">102, MDR, Executive Block, Faisal Hills</p>
+              <div className="bg-gradient-to-br from-[#004B78] to-[#00A485] p-3 sm:p-4">
+                <h3 className="text-base sm:text-lg font-semibold text-white">Islamabad Office</h3>
+                <p className="text-xs sm:text-sm text-white/90 mt-1">102, MDR, Executive Block, Faisal Hills</p>
               </div>
-              <div className="w-full h-80">
+              <div className="w-full h-56 sm:h-72 md:h-80">
                 <iframe
                   src="https://www.google.com/maps?q=102,+MDR,+Executive+Block,+Faisal+Hills,+Islamabad&output=embed"
                   width="100%"
@@ -449,7 +460,7 @@ export default function ContactPage() {
             }}
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-flex items-center gap-2 px-6 py-3 md:px-8 md:py-4 bg-white text-[#004B78] rounded-lg font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3 min-h-[48px] md:px-8 md:py-4 bg-white text-[#004B78] rounded-lg font-semibold text-base md:text-lg shadow-lg hover:shadow-xl transition-all duration-300 touch-manipulation"
           >
             Talk to Our Experts
             <ArrowRight className="w-5 h-5" />

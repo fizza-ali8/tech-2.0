@@ -121,10 +121,10 @@ export default function Testimonials() {
         />
       </div>
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div className="relative z-10 max-w-7xl mx-auto px-3 sm:px-6 lg:px-8">
         <motion.div
           {...sectionFadeIn}
-          className="text-center mb-16 md:mb-20"
+          className="text-center mb-10 sm:mb-16 md:mb-20"
         >
           {/* Small Label */}
           <motion.div
@@ -132,32 +132,32 @@ export default function Testimonials() {
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true, amount: 0.2 }}
             transition={{ ...transitions.smooth, delay: 0.1 }}
-            className="mb-4"
+            className="mb-3 sm:mb-4"
           >
-            <span className="inline-block px-4 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#00A485] bg-[#00A485]/10 rounded-full">
+            <span className="inline-block px-3 py-1.5 text-xs font-semibold uppercase tracking-wider text-[#00A485] bg-[#00A485]/10 rounded-full">
               Testimonials
             </span>
           </motion.div>
 
-          <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-6 md:mb-8 px-4">
+          <h2 className="text-2xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 mb-4 sm:mb-6 md:mb-8 px-2 sm:px-4">
             What Our <span className="bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent">Clients Say</span>
           </h2>
-          <p className="text-lg sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-8 md:mb-10 px-4 leading-relaxed">
+          <p className="text-base sm:text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto mb-6 sm:mb-8 md:mb-10 px-2 sm:px-4 leading-relaxed">
             Don't just take our word for it. Here's what our clients have to say
             about working with us.
           </p>
           <div className="w-32 h-1.5 bg-gradient-to-r from-[#004B78] to-[#00A485] mx-auto rounded-full" />
         </motion.div>
 
-        {/* Two Column Layout: Image Left, Slider Right */}
-        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
-          {/* Left Side: Image */}
+        {/* Two Column Layout: Image Left, Slider Right - compact on mobile */}
+        <div className="grid md:grid-cols-2 gap-6 sm:gap-8 md:gap-12 lg:gap-16 items-center">
+          {/* Left Side: Image - shorter on mobile to save vertical space */}
           <motion.div
             initial={{ opacity: 0, x: -50 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: false, amount: 0.2 }}
             transition={{ ...transitions.ultraSmooth, duration: 0.8 }}
-            className="relative w-full h-[400px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1 smooth-transform"
+            className="relative w-full h-[240px] sm:h-[320px] md:h-[500px] rounded-2xl overflow-hidden order-2 md:order-1 smooth-transform"
             style={{
               boxShadow: '0 20px 60px rgba(0, 164, 133, 0.15)',
               willChange: 'transform, opacity',
@@ -188,14 +188,14 @@ export default function Testimonials() {
             <div className="absolute inset-0 bg-gradient-to-t from-black/10 to-transparent" />
           </motion.div>
 
-          {/* Right Side: Slider */}
+          {/* Right Side: Slider - flexible height on mobile */}
           <div className="relative order-1 md:order-2">
             <div 
-              className="relative overflow-hidden min-h-[400px]"
+              className="relative overflow-hidden min-h-[260px] sm:min-h-[320px] md:min-h-[400px]"
               onMouseEnter={() => setIsAutoPlaying(false)}
               onMouseLeave={() => setIsAutoPlaying(true)}
             >
-              <div className="relative" style={{ minHeight: '400px' }}>
+              <div className="relative min-h-[260px] sm:min-h-[320px] md:min-h-[400px]">
                 {/* Testimonial Card with Sliding Animation */}
                 <AnimatePresence mode="wait" initial={false}>
                   <motion.div
@@ -269,23 +269,22 @@ export default function Testimonials() {
                 </AnimatePresence>
               </div>
 
-              {/* Navigation Buttons - Always render, but disable until mounted */}
-              <div className="flex items-center justify-center gap-4 mt-8">
+              {/* Navigation Buttons - touch-friendly min 44px on mobile */}
+              <div className="flex items-center justify-center gap-3 sm:gap-4 mt-6 sm:mt-8">
                 <motion.button
                   onClick={isMounted ? goToPrevious : undefined}
                   disabled={!isMounted}
                   whileHover={isMounted ? { scale: 1.1 } : {}}
                   whileTap={isMounted ? { scale: 0.95 } : {}}
-                  className="w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
                   aria-label="Previous testimonial"
                 >
                   <ChevronLeft className="w-6 h-6 text-gray-700" />
                 </motion.button>
 
-                {/* Dots Indicator */}
-                <div className="flex gap-2">
+                {/* Dots Indicator - larger tap targets on mobile */}
+                <div className="flex gap-2 items-center">
                   {testimonials.map((_, index) => {
-                    // Always show first dot as active on SSR - use 0 for initial render
                     const activeIndex = isMounted ? currentIndex : 0
                     const isActive = index === activeIndex
                     return (
@@ -296,10 +295,10 @@ export default function Testimonials() {
                           setIsAutoPlaying(false)
                         } : undefined}
                         disabled={!isMounted}
-                        className={`rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed ${
+                        className={`rounded-full transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation p-2 ${
                           isActive
-                            ? 'bg-[#00A485] w-8 h-2'
-                            : 'bg-gray-300 hover:bg-gray-400 w-2 h-2'
+                            ? 'bg-[#00A485] w-8 h-2.5'
+                            : 'bg-gray-300 hover:bg-gray-400 w-2.5 h-2.5'
                         }`}
                         aria-label={`Go to testimonial ${index + 1}`}
                       />
@@ -312,7 +311,7 @@ export default function Testimonials() {
                   disabled={!isMounted}
                   whileHover={isMounted ? { scale: 1.1 } : {}}
                   whileTap={isMounted ? { scale: 0.95 } : {}}
-                  className="w-12 h-12 rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                  className="w-12 h-12 min-w-[44px] min-h-[44px] rounded-full bg-white/80 backdrop-blur-sm border border-gray-200 flex items-center justify-center hover:bg-white hover:border-[#00A485] transition-colors shadow-lg disabled:opacity-50 disabled:cursor-not-allowed touch-manipulation"
                   aria-label="Next testimonial"
                 >
                   <ChevronRight className="w-6 h-6 text-gray-700" />
