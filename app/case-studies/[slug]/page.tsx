@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { caseStudies, caseStudiesBySlug } from '@/lib/case-studies'
 import CaseStudyDetailClient from '@/components/pages/CaseStudyDetailClient'
 import { notFound } from 'next/navigation'
+import { baseUrl, seoKeywords } from '@/lib/seo'
 
 type CaseStudyPageProps = {
   params: { slug: string }
@@ -27,10 +28,14 @@ export async function generateMetadata({
     caseStudy.image?.startsWith('/') && caseStudy.image !== '/placeholder-project.jpg'
       ? caseStudy.image
       : undefined
+  const url = `${baseUrl}/case-studies/${params.slug}`
   return {
     title: caseStudy.title,
     description: caseStudy.shortDescription,
+    keywords: [caseStudy.title, ...seoKeywords.caseStudies, 'Aurora Nexus'],
+    alternates: { canonical: url },
     openGraph: {
+      url,
       title: caseStudy.title,
       description: caseStudy.shortDescription,
       type: 'article',
@@ -52,6 +57,27 @@ export default function CaseStudyPage({ params }: CaseStudyPageProps) {
     notFound()
   }
 
-  return <CaseStudyDetailClient caseStudy={caseStudy} />
+  const caseStudyJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'Article',
+    headline: caseStudy.title,
+    description: caseStudy.shortDescription,
+    url: `${baseUrl}/case-studies/${params.slug}`,
+    ...(caseStudy.image &&
+      caseStudy.image.startsWith('/') &&
+      caseStudy.image !== '/placeholder-project.jpg' && {
+        image: `${baseUrl}${caseStudy.image}`,
+      }),
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(caseStudyJsonLd) }}
+      />
+      <CaseStudyDetailClient caseStudy={caseStudy} />
+    </>
+  )
 }
 

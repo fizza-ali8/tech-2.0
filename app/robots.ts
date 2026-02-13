@@ -1,8 +1,7 @@
 import type { MetadataRoute } from 'next'
+import { baseUrl } from '@/lib/seo'
 
 export default function robots(): MetadataRoute.Robots {
-  const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://auroranexus.tech/'
-
   return {
     rules: {
       userAgent: '*',

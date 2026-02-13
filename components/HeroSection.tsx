@@ -4,12 +4,29 @@ import { motion } from 'framer-motion'
 import { ArrowRight, Sparkles } from 'lucide-react'
 import dynamic from 'next/dynamic'
 import { useState, useEffect } from 'react'
+import { transitions } from '@/lib/animations'
 
 // Dynamically import Lottie to avoid SSR issues
 const Lottie = dynamic(() => import('lottie-react'), { ssr: false })
 
+const stagger = {
+  tagline: 0.1,
+  headline: 0.25,
+  subtitle: 0.4,
+  ctas: 0.55,
+}
+
 export default function HeroSection() {
   const [animationData, setAnimationData] = useState<any>(null)
+  const [prefersReducedMotion, setPrefersReducedMotion] = useState(false)
+
+  useEffect(() => {
+    const m = window.matchMedia('(prefers-reduced-motion: reduce)')
+    setPrefersReducedMotion(m.matches)
+    const handler = () => setPrefersReducedMotion(m.matches)
+    m.addEventListener('change', handler)
+    return () => m.removeEventListener('change', handler)
+  }, [])
 
   // Load Lottie animation data
   useEffect(() => {
@@ -343,51 +360,63 @@ export default function HeroSection() {
         </div>
       </div>
 
-      {/* Content - mobile-first padding and typography */}
+      {/* Content - staggered entrance, mobile-first */}
       <div className="relative z-30 max-w-4xl mx-auto px-3 sm:px-6 lg:px-8 pt-4 sm:pt-0 text-center">
-        {/* Small badge tag - Better integrated */}
-        <div className="mb-4 sm:mb-6">
-          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 bg-white/10 backdrop-blur-md rounded-full text-white/90 text-xs md:text-sm font-medium border border-white/20">
+        {/* Tagline */}
+        <motion.div
+          className="mb-5 sm:mb-6"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.smooth, delay: prefersReducedMotion ? 0 : stagger.tagline }}
+        >
+          <div className="inline-flex items-center gap-2 px-3 py-1.5 sm:px-4 bg-white/10 backdrop-blur-md rounded-full text-white/80 text-xs md:text-sm font-medium border border-white/20">
             <Sparkles className="w-3 h-3 md:w-4 md:h-4 text-[#00A485]" />
             <span>Technology with Purpose</span>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Restructured Headline - smaller on very narrow screens */}
-        <h1
-          className="text-2xl min-[480px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 md:mb-8 leading-[1.15] px-1 sm:px-2"
-          style={{
-            textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)',
-          }}
+        {/* Headline */}
+        <motion.h1
+          className="text-2xl min-[480px]:text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-5 sm:mb-7 md:mb-10 leading-[1.15] px-1 sm:px-2"
+          style={{ textShadow: '0 4px 20px rgba(0, 0, 0, 0.5)' }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.smooth, delay: prefersReducedMotion ? 0 : stagger.headline }}
         >
           Transform Ideas into{' '}
           <span
-            className="bg-gradient-to-br from-[#004B78] via-[#00A485] to-[#004B78] bg-clip-text text-transparent inline-block"
+            className="block mt-1 sm:mt-2 text-3xl min-[480px]:text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-extrabold tracking-tight bg-gradient-to-br from-[#00A485] via-[#00d4aa] to-[#004B78] bg-clip-text text-transparent"
             style={{
-              textShadow: '0 0 30px rgba(0, 164, 133, 0.4)',
+              textShadow: '0 0 40px rgba(0, 164, 133, 0.5), 0 0 80px rgba(0, 164, 133, 0.25)',
               WebkitBackgroundClip: 'text',
               WebkitTextFillColor: 'transparent',
             }}
           >
             Powerful Digital Products
           </span>
-        </h1>
+        </motion.h1>
 
-        {/* More specific value proposition - readable on small screens */}
-        <p
+        {/* Subtitle */}
+        <motion.p
           className="text-base sm:text-xl md:text-2xl text-white/90 mb-8 sm:mb-10 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2 sm:px-4 font-normal"
-          style={{
-            textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)',
-          }}
+          style={{ textShadow: '0 2px 15px rgba(0, 0, 0, 0.4)' }}
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.smooth, delay: prefersReducedMotion ? 0 : stagger.subtitle }}
         >
           Custom software and AI solutions that cut costs by 40% and accelerate time-to-market.
-        </p>
+        </motion.p>
 
-        {/* Stronger CTAs - full width on mobile, touch-friendly */}
-        <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto">
+        {/* CTAs */}
+        <motion.div
+          className="flex flex-col sm:flex-row gap-3 sm:gap-4 md:gap-6 justify-center items-stretch sm:items-center w-full max-w-sm sm:max-w-none mx-auto"
+          initial={prefersReducedMotion ? false : { opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ ...transitions.smooth, delay: prefersReducedMotion ? 0 : stagger.ctas }}
+        >
           <a
             href="/services"
-            className="group relative px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-base sm:text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(0,164,133,0.4)] overflow-hidden min-h-[48px] touch-manipulation"
+            className="group relative px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-bold text-base sm:text-lg md:text-xl shadow-2xl transition-all duration-300 flex items-center justify-center gap-3 bg-gradient-to-r from-[#004B78] to-[#00A485] hover:from-[#00A485] hover:to-[#004B78] hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 hover:shadow-[0_20px_40px_rgba(0,164,133,0.4)] overflow-hidden min-h-[48px] touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-[#00A485] focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
             <span className="relative z-10 flex items-center gap-3">
               Our Services
@@ -398,40 +427,32 @@ export default function HeroSection() {
           </a>
           <a
             href="/contact"
-            className="px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 flex items-center justify-center gap-3 bg-white/10 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50 hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 min-h-[48px] touch-manipulation"
+            className="px-6 py-4 sm:px-10 sm:py-5 md:px-12 md:py-6 text-white rounded-xl font-semibold text-base sm:text-lg md:text-xl transition-all duration-300 flex items-center justify-center gap-3 bg-white/5 backdrop-blur-md border-2 border-white/30 hover:bg-white/20 hover:border-white/50 hover:scale-[1.02] sm:hover:scale-[1.05] hover:-translate-y-0.5 min-h-[48px] touch-manipulation outline-none focus-visible:ring-2 focus-visible:ring-white/60 focus-visible:ring-offset-2 focus-visible:ring-offset-transparent"
           >
             Start Your Project
           </a>
-        </div>
+        </motion.div>
       </div>
 
-      {/* Scroll Indicator */}
+      {/* Scroll Indicator - visible on all screens, respects reduced motion */}
       <motion.div
-        className="absolute bottom-6 md:bottom-10 left-1/2 transform -translate-x-1/2 hidden sm:block z-30"
-        animate={{
-          y: [0, 10, 0],
-          opacity: [0.5, 1, 0.5],
-        }}
-        transition={{
-          duration: 2,
-          repeat: Infinity,
-          ease: 'easeInOut',
-        }}
+        className="absolute bottom-6 md:bottom-10 left-1/2 -translate-x-1/2 z-30 flex flex-col items-center gap-1"
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 1.2, duration: 0.5 }}
       >
-        <div className="w-6 h-10 border-2 border-gray-400 rounded-full flex justify-center backdrop-blur-sm bg-white/50">
+        <span className="text-white/60 text-xs uppercase tracking-widest hidden sm:inline">Scroll</span>
+        <motion.div
+          className="w-6 h-10 border-2 border-white/40 rounded-full flex justify-center backdrop-blur-sm bg-white/10"
+          animate={prefersReducedMotion ? {} : { y: [0, 8, 0], opacity: [0.6, 1, 0.6] }}
+          transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+        >
           <motion.div
-            className="w-1 h-3 bg-gray-400 rounded-full mt-2"
-            animate={{
-              y: [0, 12, 0],
-              opacity: [0.5, 1, 0.5],
-            }}
-            transition={{
-              duration: 2,
-              repeat: Infinity,
-              ease: 'easeInOut',
-            }}
+            className="w-1.5 h-2.5 bg-white/70 rounded-full mt-2"
+            animate={prefersReducedMotion ? {} : { y: [0, 10, 0], opacity: [0.5, 1, 0.5] }}
+            transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
           />
-        </div>
+        </motion.div>
       </motion.div>
     </section>
   )

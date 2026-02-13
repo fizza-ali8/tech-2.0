@@ -157,6 +157,8 @@ export const blogPosts: BlogPost[] = [
     author: 'Aurora Nexus Team',
     readTime: '10 min read',
     featured: false,
+    cardImage: '/media/blogs/The Future of Generative AI in Everyday Business_card.jpg',
+    blogImage: '/media/blogs/The Future of Generative AI in Everyday Business_blog.jpg',
     content: {
       introduction:
         'Generative AI has moved far beyond being a buzzword or experimental technology. What started as tools for generating text or images has evolved into intelligent systems that are actively transforming how businesses operate, communicate, and grow. Today, generative AI is becoming an everyday business capability; quietly embedded into workflows, decision-making, and customer experiences.',
@@ -171,6 +173,7 @@ export const blogPosts: BlogPost[] = [
             'Assist teams in real-time decision-making',
             'Adapt outputs based on context and user behavior',
           ],
+          imageAfter: true,
         },
         {
           heading: 'How Generative AI Is Shaping Everyday Business Operations',
@@ -238,6 +241,8 @@ export const blogPosts: BlogPost[] = [
     author: 'Aurora Nexus Team',
     readTime: '12 min read',
     featured: false,
+    cardImage: '/media/blogs/Cloud Migration Best Practices for 2026 A Step-by-Step Guide_card.jpg',
+    blogImage: '/media/blogs/Cloud Migration Best Practices for 2026 A Step-by-Step Guide_blog.jpg',
     content: {
       introduction:
         'Cloud migration is no longer just a technology upgrade—it has become a strategic move for businesses aiming to improve scalability, security, and operational efficiency. As cloud technologies mature and business demands evolve, cloud migration in 2026 looks very different from what it did a few years ago.',
@@ -253,6 +258,7 @@ export const blogPosts: BlogPost[] = [
             'Reduce infrastructure maintenance overhead',
             'Support modern application development',
           ],
+          imageAfter: true,
         },
         {
           heading: 'Step 1: Define Clear Migration Goals',
@@ -346,6 +352,8 @@ export const blogPosts: BlogPost[] = [
     author: 'Aurora Nexus Team',
     readTime: '9 min read',
     featured: false,
+    cardImage: '/media/blogs/What Is AI-Native Development and Why You Should Care_card.jpg',
+    blogImage: '/media/blogs/What Is AI-Native Development and Why You Should Care_blog.jpg',
     content: {
       introduction:
         'Artificial intelligence is no longer something that gets added to software as an afterthought. A new approach is emerging; one where AI is not just a feature, but a core part of how software is designed, built, and evolved. This approach is known as AI-native development.',
@@ -360,6 +368,7 @@ export const blogPosts: BlogPost[] = [
             'Generate insights, content, or actions dynamically',
             'Improve performance without constant manual updates',
           ],
+          imageAfter: true,
         },
         {
           heading: 'How AI-Native Development Differs from Traditional Software',
@@ -429,6 +438,8 @@ export const blogPosts: BlogPost[] = [
     author: 'Aurora Nexus Team',
     readTime: '8 min read',
     featured: false,
+    cardImage: '/media/blogs/UX UI Design Trends That Boost Conversion Rates_card.jpg',
+    blogImage: '/media/blogs/UX UI Design Trends That Boost Conversion Rates_blog.jpg',
     content: {
       introduction:
         'Great design is about how effectively it guides users to take action. In today\'s competitive digital landscape, UX/UI design plays a direct role in conversion rates, influencing whether users stay, engage, or leave.',
@@ -443,6 +454,7 @@ export const blogPosts: BlogPost[] = [
             'Builds credibility and trust',
             'Makes decision-making easier',
           ],
+          imageAfter: true,
         },
         {
           heading: 'Key UX/UI Design Trends Driving Higher Conversions',
@@ -509,6 +521,8 @@ export const blogPosts: BlogPost[] = [
     author: 'Aurora Nexus Team',
     readTime: '11 min read',
     featured: false,
+    cardImage: '/media/blogs/Content SEO Mistakes That Are Killing Your Traffic_card.jpg',
+    blogImage: '/media/blogs/Content SEO Mistakes That Are Killing Your Traffic_blog.jpg',
     content: {
       introduction:
         'In the world of digital marketing, creating great content is only half the battle. Your content could never reach the audience it deserves if it isn\'t search engine optimized. In 2026, SEO has become more sophisticated, and small mistakes can have a major impact on your traffic.',
@@ -522,6 +536,7 @@ export const blogPosts: BlogPost[] = [
             'Transactional intent → product pages, reviews, or comparisons',
             'Navigational intent → landing pages or service pages',
           ],
+          imageAfter: true,
         },
         {
           heading: '2. Overstuffing Keywords',

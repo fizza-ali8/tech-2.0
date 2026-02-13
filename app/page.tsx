@@ -1,5 +1,7 @@
+import type { Metadata } from 'next'
 import HeroSection from '@/components/HeroSection'
 import dynamic from 'next/dynamic'
+import { baseUrl } from '@/lib/seo'
 
 // Lazy load below-the-fold components for better initial load performance
 // Using ssr: false for components that don't need SSR for faster initial load
@@ -29,6 +31,11 @@ const Blogs = dynamic(() => import('@/components/Blogs'), {
 // Force static generation for instant loading
 export const dynamicParams = false
 export const revalidate = 3600 // Revalidate every hour
+
+export const metadata: Metadata = {
+  alternates: { canonical: baseUrl },
+  openGraph: { url: baseUrl },
+}
 
 export default function Home() {
   return (
