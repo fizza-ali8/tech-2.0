@@ -2,6 +2,7 @@ import { notFound } from 'next/navigation'
 import type { Metadata } from 'next'
 import ServiceDetailClient from '@/components/pages/ServiceDetailClient'
 import { services, servicesBySlug } from '@/lib/services'
+import { baseUrl, seoKeywords } from '@/lib/seo'
 
 export async function generateStaticParams() {
   return services.map((service) => ({
@@ -21,10 +22,14 @@ export function generateMetadata({
       description: 'The requested service could not be found.',
     }
   }
+  const url = `${baseUrl}/services/${params.slug}`
   return {
     title: service.title,
     description: service.shortDescription,
+    keywords: [service.title, ...seoKeywords.services, 'Aurora Nexus'],
+    alternates: { canonical: url },
     openGraph: {
+      url,
       title: service.title,
       description: service.shortDescription,
       type: 'website',

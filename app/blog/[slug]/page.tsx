@@ -2,6 +2,7 @@ import type { Metadata } from 'next'
 import { blogPosts, blogPostsBySlug } from '@/lib/blog'
 import BlogPostClient from '@/components/pages/BlogPostClient'
 import { notFound } from 'next/navigation'
+import { absoluteUrl, baseUrl, seoKeywords } from '@/lib/seo'
 
 type BlogPostPageProps = {
   params: { slug: string }
@@ -24,10 +25,14 @@ export async function generateMetadata({
     }
   }
   const image = post.blogImage ?? post.cardImage
+  const url = `${baseUrl}/blog/${params.slug}`
   return {
     title: post.title,
     description: post.excerpt,
+    keywords: [post.title, post.category, ...seoKeywords.blog, 'Aurora Nexus'],
+    alternates: { canonical: url },
     openGraph: {
+      url,
       title: post.title,
       description: post.excerpt,
       type: 'article',
@@ -49,6 +54,27 @@ export default function BlogPostPage({ params }: BlogPostPageProps) {
     notFound()
   }
 
-  return <BlogPostClient post={post} />
+  const articleJsonLd = {
+    '@context': 'https://schema.org',
+    '@type': 'BlogPosting',
+    headline: post.title,
+    description: post.excerpt,
+    datePublished: post.date,
+    author: { '@type': 'Organization', name: post.author },
+    url: `${baseUrl}/blog/${params.slug}`,
+    ...((post.blogImage ?? post.cardImage) && {
+      image: absoluteUrl((post.blogImage ?? post.cardImage)!),
+    }),
+  }
+
+  return (
+    <>
+      <script
+        type="application/ld+json"
+        dangerouslySetInnerHTML={{ __html: JSON.stringify(articleJsonLd) }}
+      />
+      <BlogPostClient post={post} />
+    </>
+  )
 }
 

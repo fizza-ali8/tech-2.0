@@ -49,7 +49,11 @@ export default function Navbar() {
             animate={{ opacity: 1, x: 0 }}
             transition={{ ...transitions.smooth, delay: 0.1 }}
             whileHover={{ scale: 1.05 }}
-            className="text-lg sm:text-xl md:text-2xl font-bold bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent"
+            className={`text-lg sm:text-xl md:text-2xl font-bold ${
+              isScrolled
+                ? 'bg-gradient-to-r from-[#004B78] to-[#00A485] bg-clip-text text-transparent'
+                : 'text-white drop-shadow-md'
+            }`}
           >
             Aurora Nexus
           </motion.div>
@@ -72,9 +76,13 @@ export default function Navbar() {
                   }}
                   whileTap={{ scale: 0.95 }}
                   className={`text-sm lg:text-base transition-all duration-300 font-medium relative ${
-                    isActive
-                      ? 'text-[#00A485]'
-                      : 'text-gray-700 hover:text-[#00A485]'
+                    isScrolled
+                      ? isActive
+                        ? 'text-[#00A485]'
+                        : 'text-gray-700 hover:text-[#00A485]'
+                      : isActive
+                        ? 'text-[#00A485]'
+                        : 'text-white/90 hover:text-white'
                   }`}
                 >
                   {link.name}
@@ -95,7 +103,9 @@ export default function Navbar() {
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ ...transitions.smooth, delay: 0.2 }}
-            className="md:hidden text-gray-700 p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation"
+            className={`md:hidden p-3 -mr-2 min-w-[44px] min-h-[44px] flex items-center justify-center touch-manipulation ${
+              isScrolled ? 'text-gray-700' : 'text-white'
+            }`}
             onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
             aria-label={isMobileMenuOpen ? 'Close menu' : 'Open menu'}
           >

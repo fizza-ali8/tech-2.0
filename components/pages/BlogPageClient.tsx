@@ -125,7 +125,8 @@ export default function BlogPageClient() {
                         alt={featuredPost.title}
                         fill
                         className="object-cover"
-                        loading="lazy"
+                        priority
+                        sizes="(max-width: 768px) 100vw, 50vw"
                         quality={85}
                       />
                     </motion.div>
@@ -227,6 +228,7 @@ export default function BlogPageClient() {
                           fill
                           className="object-cover group-hover:scale-110 transition-transform duration-300"
                           loading="lazy"
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                           quality={85}
                         />
                       </motion.div>

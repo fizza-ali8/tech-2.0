@@ -113,15 +113,15 @@ export default function BlogPostClient({ post }: { post: BlogPost }) {
                         whileInView={{ opacity: 1, y: 0 }}
                         viewport={{ once: true, amount: 0.3 }}
                         transition={{ duration: 0.8, ease: 'easeOut' }}
-                        className="mb-8 rounded-xl overflow-hidden shadow-lg relative w-full h-auto"
+                        className="mb-8 rounded-xl overflow-hidden shadow-lg relative w-full aspect-[2/1]"
                       >
                         <Image
                           src={post.blogImage}
                           alt={post.title}
-                          width={1200}
-                          height={600}
-                          className="w-full h-auto object-cover"
+                          fill
+                          className="object-cover"
                           loading="lazy"
+                          sizes="(max-width: 1024px) 100vw, 66vw"
                           quality={85}
                         />
                       </motion.div>

@@ -4,6 +4,7 @@ import './globals.css'
 import Navbar from '@/components/Navbar'
 import Footer from '@/components/Footer'
 import ErrorBoundary from '@/components/ErrorBoundary'
+import { baseUrl, buildOrganizationJsonLd, buildWebSiteJsonLd, seoKeywords } from '@/lib/seo'
 
 const inter = Inter({ 
   subsets: ['latin'],
@@ -18,15 +19,15 @@ export const metadata: Metadata = {
     template: '%s | Aurora Nexus',
   },
   description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
-  keywords: ['software development', 'web development', 'AI solutions', 'digital products', 'technology consulting', 'Aurora Nexus'],
-  authors: [{ name: 'Aurora Nexus', url: 'https://auroranexus.tech/' }],
+  keywords: seoKeywords.default,
+  authors: [{ name: 'Aurora Nexus', url: baseUrl }],
   creator: 'Aurora Nexus',
   openGraph: {
     type: 'website',
     locale: 'en_US',
+    url: baseUrl,
     title: 'Aurora Nexus - Technology with Purpose',
     description: 'Transforming ideas into powerful digital products. We create future-ready software, websites, and AI solutions.',
-    // Resolved to absolute URL via metadataBase. Replace with /og-default.png (1200×630) when you add one.
     images: ['/media/BestItSolution_home.jpg'],
   },
   twitter: {
@@ -39,7 +40,7 @@ export const metadata: Metadata = {
     index: true,
     follow: true,
   },
-  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://auroranexus.tech/'),
+  metadataBase: new URL(baseUrl + '/'),
 }
 
 export default function RootLayout({
@@ -50,6 +51,19 @@ export default function RootLayout({
   return (
     <html lang="en">
       <head>
+        {/* Structured data for search engines */}
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildOrganizationJsonLd()),
+          }}
+        />
+        <script
+          type="application/ld+json"
+          dangerouslySetInnerHTML={{
+            __html: JSON.stringify(buildWebSiteJsonLd()),
+          }}
+        />
         {/* Preconnect to external domains for faster resource loading */}
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
